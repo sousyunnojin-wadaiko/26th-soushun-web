@@ -1,11 +1,202 @@
-<section>
-  <h2>Header</h2>
-  <a href="#MoveAbout">早春の陣について</a>
-  <a href="#MoveTheme">テーマ</a>
-  <a href="#MoveStory">ストーリー</a>
-  <a href="#MoveCast">出演者</a>
-  <a href="#MoveEventInfo">公演情報</a>
-  <a href="#MoveTicket">チケット・席予約</a>
-  <a href="#MoveNotices">お知らせ・注意事項</a>
-  <a href="#MoveAccess">アクセス</a>
-</section>
+---
+const nav = [
+  { href: "#MoveAbout", label: "早春の陣について" },
+  { href: "#MoveTheme", label: "テーマ" },
+  { href: "#MoveStory", label: "ストーリー" },
+  { href: "#MoveCast", label: "出演者" },
+  { href: "#MoveEventInfo", label: "公演情報" },
+  { href: "#MoveTicket", label: "チケット・席予約" },
+  { href: "#MoveNotices", label: "お知らせ・注意事項" },
+  { href: "#MoveAccess", label: "アクセス" },
+];
+---
+<div id="top"></div>
+
+<header
+  class="sticky top-0 z-50 w-full bg-black/80 transition-all duration-300"
+>
+  <div class="flex items-center justify-between px-6 py-4">
+
+    <h3>
+    <a href="#top">和太鼓 早春の陣</a>
+    </h3>
+
+    <!-- PC用 -->
+    <nav class="hidden items-center gap-6 min-[1110px]:flex">
+      {nav.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <!-- ハンバーガー -->
+    <button
+      id="menu-button"
+      class="menubutton relative z-[60] h-10 w-10 min-[1110px]:hidden"
+      aria-label="メニューを開く"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+  <!-- スマホ用 -->
+  <nav
+    id="mobile-menu"
+    class="absolute right-0 top-full flex w-1/2
+           translate-x-full flex-col gap-5
+           bg-black/80 px-6 py-6
+           transition-transform duration-300 ease-in-out
+           lg:hidden"
+  >
+    {nav.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+  </nav>
+</header>
+
+
+<style>
+  /* =========================
+     ハンバーガーボタン
+     ========================= */
+
+  .menubutton span {
+    position: absolute;
+    left: 50%;
+    width: 24px;
+    height: 2px;
+    background: white;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s;
+  }
+
+  /* 3本線 */
+  .menubutton span:first-child {
+    top: 25%;
+  }
+
+  .menubutton span:nth-child(2) {
+    top: 50%;
+  }
+
+  .menubutton span:last-child {
+    top: 75%;
+  }
+
+  /* =========================
+     メニューを開いた状態
+     ========================= */
+
+  .menubutton.open span:first-child {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .menubutton.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menubutton.open span:last-child {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+</style>
+
+
+<script>
+  const header = document.querySelector("#header");
+  const menuButton = document.querySelector("#menu-button");
+  const mobileMenu = document.querySelector("#mobile-menu");
+
+
+  // =========================
+  // スクロール
+  // =========================
+
+  window.addEventListener("scroll", () => {
+
+    // メニューが開いている場合は何もしない
+    if (mobileMenu?.classList.contains("translate-x-0")) {
+      return;
+    }
+
+    if (window.scrollY > 20) {
+
+      // スクロールしたら黒
+      header?.classList.remove(
+        "bg-gradient-to-b",
+        "from-black/80",
+        "via-black/40",
+        "to-transparent"
+      );
+
+      header?.classList.add("bg-black/80");
+
+    } else {
+
+      // 一番上ではグラデーション
+      header?.classList.remove("bg-black/80");
+
+      header?.classList.add(
+        "bg-gradient-to-b",
+        "from-black/80",
+        "via-black/40",
+        "to-transparent"
+      );
+    }
+  });
+
+
+  // =========================
+  // ハンバーガー
+  // =========================
+
+  menuButton?.addEventListener("click", () => {
+
+    // ☰ ⇔ ×
+    menuButton?.classList.toggle("open");
+
+    // メニューを右から出す
+    mobileMenu?.classList.toggle("translate-x-full");
+    mobileMenu?.classList.toggle("translate-x-0");
+
+    const isOpen = mobileMenu?.classList.contains("translate-x-0");
+
+
+    if (isOpen) {
+
+      // =====================
+      // メニューを開いたとき
+      // =====================
+
+      header?.classList.remove(
+        "bg-gradient-to-b",
+        "from-black/80",
+        "via-black/40",
+        "to-transparent"
+      );
+
+      header?.classList.add("bg-black/80");
+
+    } else {
+
+      // =====================
+      // メニューを閉じたとき
+      // =====================
+
+      if (window.scrollY <= 20) {
+
+        header?.classList.remove("bg-black/80");
+
+        header?.classList.add(
+          "bg-gradient-to-b",
+          "from-black/80",
+          "via-black/40",
+          "to-transparent"
+        );
+      }
+    }
+  });
+</script>

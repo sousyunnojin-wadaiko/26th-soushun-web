@@ -10,6 +10,7 @@ import Ticket from "../components/Ticket.astro";
 import Notices from "../components/Notices.astro";
 import Access from "../components/Access.astro";
 import Footer from "../components/Footer.astro";
+import "../../styles/global.css";
 ---
 
 <html lang="ja">
@@ -18,8 +19,7 @@ import Footer from "../components/Footer.astro";
     <meta name="viewport" content="width=device-width" />
     <title>第26回 和太鼓 早春の陣</title>
   </head>
-  <body>
-    <a href="/reserve" target="_blank">席選択ページ</a>
+  <body class="overflow-x-hidden">
 	<Header />
 	<Hero />
 	<About />
