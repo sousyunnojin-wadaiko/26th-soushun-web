@@ -10,16 +10,21 @@ const nav = [
   { href: "#MoveAccess", label: "アクセス" },
 ];
 ---
+
+<!-- ページ最上部への移動先 -->
 <div id="top"></div>
 
 <header
   id="header"
-  class="sticky top-0 z-50 w-full bg-black/80 transition-all duration-300"
+  class="sticky top-0 z-50 w-full
+         bg-gradient-to-b from-black/80 via-black/40 to-transparent
+         transition-all duration-300"
 >
   <div class="flex items-center justify-between px-6 py-4">
 
+    <!-- ロゴ -->
     <h3>
-    <a href="#top">和太鼓 早春の陣</a>
+      <a href="#top">和太鼓 早春の陣</a>
     </h3>
 
     <!-- PC用 -->
@@ -49,7 +54,7 @@ const nav = [
            translate-x-full flex-col gap-5
            bg-black/80 px-6 py-6
            transition-transform duration-300 ease-in-out
-           lg:hidden"
+           min-[1110px]:hidden"
   >
     {nav.map((item) => (
       <a href={item.href}>{item.label}</a>
@@ -59,6 +64,16 @@ const nav = [
 
 
 <style>
+  /* =========================
+     横スクロール防止
+     ========================= */
+
+  :global(html),
+  :global(body) {
+    overflow-x: hidden;
+  }
+
+
   /* =========================
      ハンバーガーボタン
      ========================= */
@@ -74,6 +89,7 @@ const nav = [
   }
 
   /* 3本線 */
+
   .menubutton span:first-child {
     top: 25%;
   }
@@ -85,6 +101,7 @@ const nav = [
   .menubutton span:last-child {
     top: 75%;
   }
+
 
   /* =========================
      メニューを開いた状態
@@ -148,6 +165,24 @@ const nav = [
       );
     }
   });
+
+
+  // =========================
+  // ページ読み込み時
+  // =========================
+
+  // リロードした位置が20pxより下なら黒にする
+  if (window.scrollY > 20) {
+
+    header?.classList.remove(
+      "bg-gradient-to-b",
+      "from-black/80",
+      "via-black/40",
+      "to-transparent"
+    );
+
+    header?.classList.add("bg-black/80");
+  }
 
 
   // =========================
