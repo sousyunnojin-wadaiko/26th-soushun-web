@@ -1,13 +1,458 @@
----
----
 
+---
+import "/home/akari/wadaiko/26th-soushun-web/src/pages/SeatReservation.css";
+
+const API_URL = import.meta.env.PUBLIC_GAS_API_URL;
+
+const rowLabels = "XYZABCDEFGHI".split("");
+const layout = [4, 9, 4];
+---
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>席予約</title>
+    <title>座席予約ページ</title>
   </head>
   <body>
-    <h1>席選択ページの場所</h1>
+    <div class="reservation">
+      <h2>座席予約</h2>
+
+      <div id="id-form" class="id-form">
+        <input id="reservation-id" type="text" placeholder="予約ID" />
+        <button id="check-button">確認</button>
+      </div>
+
+      <div id="loading" class="loading-overlay" hidden>
+        <div class="loading-box">
+          <p>少々お待ちください… ⏳</p>
+        </div>
+      </div>
+
+      <div id="reservation-content" hidden>
+        <p>予約人数：<span id="allowed-seats">0</span>名</p>
+
+        <p id="selection-info">座席を選択してください</p>
+
+        <div class="legend">
+          <span><i class="available-color"></i>空席</span>
+          <span><i class="selected-color"></i>選択中</span>
+          <span><i class="reserved-color"></i>予約済み</span>
+          <span><i class="mine-color"></i>自分の席</span>
+        </div>
+
+        <div class="theater">
+          <div class="seat-area">
+            <div class="stage">STAGE</div>
+
+            <div class="seat-map">
+              {rowLabels.map((rowLabel) => {
+                const isFloorRow = ["X", "Y", "Z"].includes(rowLabel);
+
+                return (
+                  <div
+                    class={`seat-row ${isFloorRow ? "floor-row" : "riser-row"}`}
+                    data-row={rowLabel}
+                  >
+                    <div class="row-info">
+                      <div class="row-label">{rowLabel}列</div>
+                      <div class="row-note">
+                        {isFloorRow ? "フロア席" : "段差席"}
+                      </div>
+                    </div>
+
+                    {layout.map((count, blockIndex) => (
+                      <>
+                        <div class="seat-block">
+                          {Array.from({ length: count }, (_, i) => {
+                            const number =
+                              layout.slice(0, blockIndex).reduce((a, b) => a + b, 0)
+                              + i + 1;
+
+                            return (
+                              <button
+                                type="button"
+                                class="seat available"
+                                data-seat-id={`${rowLabel}-${number}`}
+                                aria-label={`${rowLabel}-${number}`}
+                              >
+                                {rowLabel}-{number}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {blockIndex < 2 && <div class="aisle"></div>}
+                      </>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div class="action-area">
+          <button id="confirm-button" class="confirm-btn" disabled>
+            予約確定
+          </button>
+
+          <button id="cancel-button" class="cancel-btn" hidden>
+            予約取消
+          </button>
+        </div>
+      </div>
+
+      <div id="alert" class="alert" hidden>
+        <p id="alert-message"></p>
+      </div>
+    </div>
   </body>
 </html>
+
+<script define:vars={{ API_URL }}>
+  const reservationIdInput = document.querySelector("#reservation-id");
+  const checkButton = document.querySelector("#check-button");
+  const idForm = document.querySelector("#id-form");
+  const content = document.querySelector("#reservation-content");
+  const allowedSeatsText = document.querySelector("#allowed-seats");
+  const selectionInfo = document.querySelector("#selection-info");
+
+  const loading = document.querySelector("#loading");
+  const alertBox = document.querySelector("#alert");
+  const alertMessage = document.querySelector("#alert-message");
+
+  const confirmButton = document.querySelector("#confirm-button");
+  const cancelButton = document.querySelector("#cancel-button");
+
+  let reservationId = "";
+  let allowedSeats = 0;
+  let selectedSeats = [];
+  let mySeats = [];
+
+  let isVerified = false;
+  let mode = "select";
+  let isLoading = false;
+  let alertTimer;
+
+  const allSeats = [...document.querySelectorAll(".seat")];
+
+  // 通知
+  function showAlert(message) {
+    alertMessage.textContent = message;
+    alertBox.hidden = false;
+
+    clearTimeout(alertTimer);
+
+    alertBox.classList.remove("fade-out");
+    alertBox.classList.add("fade-in");
+
+    alertTimer = setTimeout(() => {
+      alertBox.classList.remove("fade-in");
+      alertBox.classList.add("fade-out");
+
+      setTimeout(() => {
+        alertBox.hidden = true;
+      }, 300);
+    }, 2000);
+  }
+
+  // ローディング
+  function setLoading(value) {
+    isLoading = value;
+    loading.hidden = !value;
+
+    checkButton.disabled = value;
+    confirmButton.disabled =
+      value || selectedSeats.length !== allowedSeats || selectedSeats.length === 0;
+    cancelButton.disabled = value;
+  }
+
+  // 座席表示更新
+  function updateSeats() {
+    allSeats.forEach((seat) => {
+      const id = seat.dataset.seatId;
+
+      seat.classList.toggle("selected", selectedSeats.includes(id));
+      seat.classList.toggle("mine", mySeats.includes(id));
+
+      seat.disabled =
+        !isVerified ||
+        mode === "view" ||
+        seat.classList.contains("reserved");
+
+      seat.setAttribute(
+        "aria-pressed",
+        String(selectedSeats.includes(id))
+      );
+    });
+
+    selectionInfo.textContent =
+      mode === "view"
+        ? "現在の予約座席を表示しています"
+        : `選択中：${selectedSeats.length} / ${allowedSeats}席`;
+
+    confirmButton.hidden = mode !== "select";
+    cancelButton.hidden = mode !== "view";
+
+    confirmButton.disabled =
+      isLoading ||
+      selectedSeats.length === 0 ||
+      selectedSeats.length !== allowedSeats;
+  }
+
+  // 予約済み座席の読み込み
+  async function loadReservedSeats() {
+    try {
+      const res = await fetch(`${API_URL}?mode=reservedSeats`);
+      const data = await res.json();
+
+      if (!data.success) return;
+
+      allSeats.forEach((seat) => {
+        const id = seat.dataset.seatId;
+
+        seat.classList.remove("reserved", "available");
+
+        if (data.seats.includes(id)) {
+          seat.classList.add("reserved");
+        } else {
+          seat.classList.add("available");
+        }
+      });
+
+      updateSeats();
+    } catch (error) {
+      console.error("座席情報の取得に失敗しました", error);
+    }
+  }
+
+  // 予約ID確認
+  async function checkReservation() {
+    reservationId = reservationIdInput.value.trim();
+
+    if (!reservationId) {
+      showAlert("予約IDを入力してください");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${API_URL}?reservation_id=${encodeURIComponent(reservationId)}`
+      );
+
+      const data = await res.json();
+
+      if (!data.success) {
+        showAlert("予約IDが無効です");
+        return;
+      }
+
+      allowedSeats = Number(data.people);
+
+      if (!Number.isInteger(allowedSeats) || allowedSeats <= 0) {
+        showAlert("予約人数を取得できませんでした");
+        return;
+      }
+
+      allowedSeatsText.textContent = allowedSeats;
+
+      const status = String(data.status ?? "").trim().toLowerCase();
+
+      if (status === "unused") {
+        mode = "select";
+        mySeats = [];
+        selectedSeats = [];
+        isVerified = true;
+
+        idForm.hidden = true;
+        content.hidden = false;
+
+        await loadReservedSeats();
+        updateSeats();
+        return;
+      }
+
+      if (status === "reserved") {
+        mode = "view";
+
+        const myRes = await fetch(
+          `${API_URL}?mode=mySeats&reservation_id=${encodeURIComponent(reservationId)}`
+        );
+
+        const myData = await myRes.json();
+
+        if (!myData.success) {
+          showAlert("予約席の取得に失敗しました");
+          return;
+        }
+
+        mySeats =
+          typeof myData.seats === "string"
+            ? myData.seats.split(",").map((s) => s.trim()).filter(Boolean)
+            : myData.seats ?? [];
+
+        selectedSeats = [];
+        isVerified = true;
+
+        idForm.hidden = true;
+        content.hidden = false;
+
+        await loadReservedSeats();
+
+        updateSeats();
+        showAlert("予約済みの座席を表示しました");
+        return;
+      }
+
+      showAlert("予約IDが無効です");
+
+    } catch (error) {
+      console.error(error);
+      showAlert("通信に失敗しました");
+    } finally {
+      setLoading(false);
+      updateSeats();
+    }
+  }
+
+  // 座席クリック
+  function toggleSeat(seatId) {
+    if (!isVerified || mode === "view" || isLoading) return;
+
+    const seat = allSeats.find(
+      (s) => s.dataset.seatId === seatId
+    );
+
+    if (!seat || seat.classList.contains("reserved")) return;
+
+    if (!selectedSeats.includes(seatId) &&
+        selectedSeats.length >= allowedSeats) {
+      showAlert(`選択できるのは${allowedSeats}席まで`);
+      return;
+    }
+
+    if (selectedSeats.includes(seatId)) {
+      selectedSeats = selectedSeats.filter((id) => id !== seatId);
+    } else {
+      selectedSeats = [...selectedSeats, seatId];
+    }
+
+    updateSeats();
+  }
+
+  allSeats.forEach((seat) => {
+    seat.addEventListener("click", () => {
+      toggleSeat(seat.dataset.seatId);
+    });
+  });
+
+  // 予約確定
+  async function confirmReservation() {
+    if (selectedSeats.length === 0) {
+      showAlert("座席を選択してください");
+      return;
+    }
+
+    if (selectedSeats.length !== allowedSeats) {
+      showAlert(`${allowedSeats}席選択してください`);
+      return;
+    }
+
+    const formData = new URLSearchParams();
+
+    formData.append("reservation_id", reservationId);
+    formData.append("seats", selectedSeats.join(","));
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        showAlert(data.message ?? "予約に失敗しました");
+        return;
+      }
+
+      mySeats = [...selectedSeats];
+      selectedSeats = [];
+      mode = "view";
+
+      await loadReservedSeats();
+
+      updateSeats();
+      showAlert("予約完了！");
+
+    } catch (error) {
+      console.error(error);
+      showAlert("通信に失敗しました");
+    } finally {
+      setLoading(false);
+      updateSeats();
+    }
+  }
+
+  // 予約取消
+  async function cancelReservation() {
+    const ok = window.confirm(
+      "予約を取り消しますか？この操作は元に戻せません。"
+    );
+
+    if (!ok) return;
+
+    setLoading(true);
+
+    try {
+      const formData = new URLSearchParams();
+
+      formData.append("mode", "cancel");
+      formData.append("reservation_id", reservationId);
+
+      const res = await fetch(API_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        showAlert(data.message ?? "取消に失敗しました");
+        return;
+      }
+
+      mySeats = [];
+      selectedSeats = [];
+      mode = "select";
+
+      await loadReservedSeats();
+
+      updateSeats();
+      showAlert("予約を取り消しました");
+
+    } catch (error) {
+      console.error(error);
+      showAlert("通信に失敗しました");
+    } finally {
+      setLoading(false);
+      updateSeats();
+    }
+  }
+
+  checkButton.addEventListener("click", checkReservation);
+
+  reservationIdInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") checkReservation();
+  });
+
+  confirmButton.addEventListener("click", confirmReservation);
+  cancelButton.addEventListener("click", cancelReservation);
+
+  // 初期表示
+  loadReservedSeats();
+</script>
