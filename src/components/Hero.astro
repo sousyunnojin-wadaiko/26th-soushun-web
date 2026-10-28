@@ -294,7 +294,18 @@ const shards = Array.from(
   .vertical-wave {
     display: inline-block;
     transform: rotate(90deg);
-    color: inherit;
+
+    background: linear-gradient(
+      to right,
+      #ffe08a 0%,
+      #ffb347 30%,
+      #ff8716 60%,
+      #c83220 100%
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .hero__event-name {
