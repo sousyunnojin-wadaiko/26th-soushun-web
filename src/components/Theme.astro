@@ -1,11 +1,59 @@
-<section id="MoveTheme">
-  <h2>テーマ</h2>
-  <h3>解（ほどき）〜春呼びの音（ね）〜</h3>
-  <p>
-    前回のテーマ「韻-揺るがないもの-」は先代が繋いできた伝統などに重きをおいたテーマで、「韻（伝統）」は、誇りであると同時に、型を崩せない「堅さ」でもあります。
-    その「堅さ」を開催時期である2月の凍てつく「氷」に例えました。
-    その氷を自分たちの熱い演奏で解（と）かして暖かい春（新スタート）を呼ぼう！そんな思いが込められています。
-    解くことは壊すこととは違い、揺るがないものを大切に抱いたまま「この代でしか出せない音」をしっかり打ち込める早春の陣にしたいと思っています。
-
-  </p>
+<section id="MoveTheme" class="theme">
+  <h1><ruby>解<rt>ほどき</rt></ruby></h1>
+  <h2>
+    ～
+    <ruby>春<rt>はる</rt></ruby>
+    <ruby>呼<rt>よ</rt></ruby>びの
+    <ruby>音<rt>ね</rt></ruby>
+    ～
+  </h2>
+  <div class="theme-line"></div>
 </section>
+
+<style>
+  .theme {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .theme h1 {
+    font-size: 8rem;
+  }
+
+  .theme h1 rt {
+    font-size: 0.2em;
+  }
+
+  .theme h2 {
+    font-size: 1.6rem;
+    letter-spacing: 0.5em;
+  }
+
+  .theme-line {
+    width: 100%;
+    max-width: 1100px;
+    height: 4px;
+    margin: 20px auto 0;
+    background-color: white;
+
+    clip-path: polygon(
+      0% 50%,
+      50% 0%,
+      100% 50%,
+      50% 100%
+    );
+  }
+
+  @media (max-width: 768px) {
+    .theme h1 {
+      font-size: 4rem;
+    }
+
+    .theme h2 {
+      font-size: 1.2rem;
+    }
+  }
+</style>
