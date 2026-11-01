@@ -1,16 +1,247 @@
-<footer class="bg-black">
-  <p>第26回 和太鼓 早春の陣</p>
-  <p>解（ほどき）〜春呼びの音（ね）〜</p>
-  <p>2027年2月28日（日）</p>
-  <p>アオーレ長岡　市民ホールA</p>
-  <a href="#MoveAbout">早春の陣について</a>
-  <a href="#MoveTheme">テーマ</a>
-  <a href="#MoveStory">ストーリー</a>
-  <a href="#MoveCast">出演者</a>
-  <a href="#MoveEventInfo">公演情報</a>
-  <a href="#MoveTicket">チケット・席予約</a>
-  <a href="#MoveNotices">お知らせ・注意事項</a>
-  <a href="#MoveAccess">アクセス</a>
-  <p>@2027 和太鼓早春の陣実行委員会. All rights reserved.
-</p>
+---
+const footerImage = "/footer_img.svg";
+const footer_bgcolor = "#111A2B";
+
+const icons = {
+  arrow: "/arrow-up-right.svg",
+  external: "/external-link.svg",
+  mail: "/mail.svg",
+  insta: "/instagram.svg",
+  x: "/x.svg",
+};
+
+const footerLinks = [
+  { label: "テーマ", href: "#MoveTheme" },
+  { label: "ストーリー", href: "#MoveStory" },
+  { label: "出演", href: "#MoveCast" },
+  { label: "公演情報", href: "#MoveEventInfo" },
+  { label: "予約", href: "#MoveTicket" },
+  { label: "アクセス", href: "#MoveAccess" },
+];
+---
+
+<div class="footer-image">
+  <img src={footerImage} alt="" />
+</div>
+
+<footer style={`background-color: ${footer_bgcolor};`}>
+  <div class="footer-container">
+    <div class="footer-main">
+      <!-- 左 -->
+      <div class="footer-info">
+        <p class="footer-title">第26回 和太鼓 早春の陣</p>
+        <p class="footer-subtitle">
+          テーマ
+          「<ruby>解<rt>ほどき</rt></ruby>〜春呼びの<ruby>音<rt>ね</rt></ruby>〜」
+        </p>
+        <p>2027年2月28日（日）</p>
+        <p>アオーレ長岡　市民ホールA</p>
+      </div>
+
+      <!-- 中央 -->
+      <div class="footer-links">
+        <nav class="footer-nav" aria-label="フッターナビゲーション">
+          {footerLinks.map((link) => (
+            <a href={link.href}>
+              <img src={icons.arrow} alt="" />
+              {link.label}
+            </a>
+          ))}
+        </nav>
+        <a
+          class="footer-toplink"
+          href="https://soushun-top.vercel.app/"
+        >
+          <img src={icons.external} alt="" />
+          早春の陣トップページ
+        </a>
+      </div>
+
+      <!-- 右 -->
+       <div class="footer-contact">
+        <p class="contact-title">お問い合わせ</p>
+        <p>和太鼓「早春の陣」実行委員会</p>
+        <a
+          href="mailto:sousyunnojin.wadaiko@gmail.com"
+        >
+          <img src={icons.mail} alt="" />
+          sousyunnojin.wadaiko@gmail.com
+        </a>
+        <a
+          href="https://instagram.com/sousyunnojin"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={icons.insta} alt="" />
+          @sousyunnojin
+        </a>
+        <a
+          href="https://x.com/sousyunnojin"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src={icons.x} alt="" />
+          @sousyunnojin
+        </a>
+       </div>
+    </div>
+
+    <p class="footer-copyright">
+      © 2027 和太鼓早春の陣実行委員会. All rights reserved.
+    </p>
+  </div>
 </footer>
+
+<style>
+  .footer-image {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+    pointer-events: none;
+  }
+
+  .footer-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  footer {
+    position: relative;
+    width: 100%;
+    color: #ffffff;
+    padding: 30px 20px 20px;
+    margin-top: -5px;
+  }
+
+  .footer-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .footer-info,
+  .footer-links,
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+  }
+  
+  .footer-title {
+    font-size: 1.5rem;
+  }
+
+  .footer-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .footer-nav {
+    display: grid;
+    gap: 5px;
+  }
+
+  .footer-nav a,
+  .footer-toplink,
+  .footer-contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #ffffff;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .footer-nav a:hover,
+  .footer-toplink:hover,
+  .footer-contact a:hover {
+    opacity: 0.6;
+  }
+
+  .footer-nav a img,
+  .footer-toplink img,
+  .footer-contact a img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+  }
+
+  .footer-contact .contact-title {
+    font-size: 1.2rem;
+  }
+
+  .footer-contact a {
+    font-size: 1.0rem;
+  }
+
+  .footer-copyright {
+    margin: 80px 0 0;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #a0a5af;
+  }
+
+  @media (max-width: 768px) {
+    footer {
+      margin-top: -1px;
+      padding: 50px 20px 24px;
+    }
+
+    .footer-main {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .footer-info .footer-title,
+    .footer-contact .footer-title {
+      font-size: 1.15rem;
+    }
+
+    .footer-info p:not(.footer-title),
+    .footer-contact p:not(.footer-title),
+    .footer-links p:not(.footer-title),
+    .footer-nav a,
+    .footer-toplink {
+      font-size: 0.9rem;
+    }
+
+    .footer-contact a {
+      font-size: 1.0rem;
+    }
+
+    .footer-info,
+    .footer-nav a,
+    .footer-links,
+    .footer-toplink,
+    .footer-contact {
+      gap: 5px;
+    }
+
+    .footer-nav {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px 50px;
+    }
+
+    .footer-contact {
+      grid-column: auto;
+    }
+
+    .footer-copyright {
+      margin-top: 60px;
+      font-size: 0.75rem;
+    }
+  }
+</style>
