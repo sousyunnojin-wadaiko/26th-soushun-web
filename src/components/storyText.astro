@@ -1,0 +1,33 @@
+---
+---
+
+<div class="story-text">
+  <slot />
+</div>
+
+<style>
+  .story-text {
+    color: #EEEFF6;
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.5;
+    padding: 20vh 5vh;
+  }
+
+  .story-text::first-letter {
+    font-size: 40px;
+    vertical-align: baseline;
+  }
+
+  /* スマホ向け */
+  @media (max-width: 600px) {
+    .story-text {
+      font-size: 16px;
+      padding: 20vh 5vh;
+    }
+
+    .story-text::first-letter {
+      font-size: 32px;
+    }
+  }
+</style>

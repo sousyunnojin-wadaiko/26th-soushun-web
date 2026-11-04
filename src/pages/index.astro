@@ -10,6 +10,7 @@ import Ticket from "../components/Ticket.astro";
 import Notices from "../components/Notices.astro";
 import Access from "../components/Access.astro";
 import Footer from "../components/Footer.astro";
+import StoryText from "../components/storyText.astro"
 import "../../styles/global.css";
 ---
 
@@ -22,14 +23,16 @@ import "../../styles/global.css";
   <body class="overflow-x-hidden">
 	<Header />
 	<Hero />
-	<About />
-	<Theme />
-	<Story />
-	<Cast />
-	<EventInfo />
-	<Ticket />
-	<Notices />
-	<Access />
+	<StoryText>
+  		四季がなくなってしまった世界
+		<br/><br/><br/>
+		ある日から雲が空を覆い尽くし、夜が永遠に続くようになりました
+	</StoryText>
+	<StoryText>
+		日が差すどこかに、春を呼ぶ鈴があるらしい
+		<br/><br/><br/>
+		旅人らはすっかり冷え込んだ町を出て行き、春を呼ぶ鈴を探しにいきました ───
+	</StoryText>
 	<Footer />
   </body>
 </html>
