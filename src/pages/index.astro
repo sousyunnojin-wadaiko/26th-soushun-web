@@ -10,7 +10,11 @@ import Ticket from "../components/Ticket.astro";
 import Notices from "../components/Notices.astro";
 import Access from "../components/Access.astro";
 import Footer from "../components/Footer.astro";
-import StoryText from "../components/storyText.astro"
+import StoryText from "../components/items/storyText.astro"
+import Frame from "../components/items/Frame.astro"
+import StoryButton from "../components/items/storyButton.astro"
+import PageButton from "../components/items/pageButton.astro";
+
 import "../../styles/global.css";
 ---
 
@@ -29,6 +33,38 @@ import "../../styles/global.css";
 		ある日から雲が空を覆い尽くし、夜が永遠に続くようになりました
 	</StoryText>
 	<Theme />
+	<div class="flex flex-col justify-center items-center gap-4">
+  		<StoryButton />
+	<PageButton
+		href="/cast"
+		background="/icon_wind.svg"
+		label="出演"
+		disabled={true}
+		position="right"
+	/>
+	<PageButton
+		href="/info"
+		background="/icon_forest.svg"
+		label="公演情報"
+		disabled={true}
+		position="left"
+	/>
+	<PageButton
+		href="/reserve"
+		background="/icon_fire.svg"
+		label="予約"
+		position="right"
+		target="_blank"
+	/>
+	<PageButton
+		href="/info"
+		background="/icon_mountain.svg"
+		label="アクセス"
+		disabled={true}
+		position="left"
+	/>
+	</div>
+	
 	<StoryText>
 		日が差すどこかに、春を呼ぶ鈴があるらしい
 		<br/><br/><br/>

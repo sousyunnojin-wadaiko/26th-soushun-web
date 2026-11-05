@@ -1,0 +1,94 @@
+---
+import Frame from "./Frame.astro";
+
+interface Props {
+  href: string;
+  background: string;
+  label: string;
+  disabled?: boolean;
+  position?: "left" | "center" | "right";
+  offset?: number;
+  target?: "";
+}
+
+const {
+  href,
+  background,
+  label,
+  disabled = false,
+  position = "center",
+  offset = 10,
+  target = ""
+} = Astro.props;
+
+const backgroundPosition =
+  position === "left"
+    ? `calc(0% + ${offset}px) center`
+    : position === "right"
+      ? `calc(100% - ${offset}px) center`
+      : "center center";
+
+---
+
+<div class="page-button-frame">
+  <Frame>
+    {
+      disabled ? (
+        <span
+          class="page-button disabled"
+          style={`background-image: url("${background}"); background-position: ${backgroundPosition};`}
+          aria-disabled="true"
+        >
+          {label}
+        </span>
+      ) : (
+        <a
+          href={href}
+          target="${target}"
+          rel="noopener noreferrer"
+          class="page-button"
+          style={`background-image: url("${background}"); background-position: ${backgroundPosition};`}
+        >
+          {label}
+        </a>
+      )
+    }
+  </Frame>
+</div>
+
+<style>
+  .page-button-frame {
+    width: 45%;
+    max-width: 300px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .page-button {
+    display: block;
+
+    background-repeat: no-repeat;
+    background-size: auto 120%;
+
+    border: none;
+    color: #EEEFF6;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+
+    width: 100%;
+    padding: 5px 10px;
+    box-sizing: border-box;
+
+    transition: background-color 0.3s ease;
+  }
+
+  a.page-button:hover {
+    background-color: #EEEFFf30;
+  }
+
+  .page-button.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+</style>

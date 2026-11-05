@@ -1,0 +1,81 @@
+---
+---
+
+<div class="modal-overlay" id="story-modal">
+  <div class="modal-content">
+    <button class="close-button" aria-label="閉じる">×</button>
+
+    <h2>物語</h2>
+
+    <div class="modal-text">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    background: rgba(0, 0, 0, 0.7);
+
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  .modal-content {
+    position: relative;
+    background: #252638;
+    color: #EEEFF6;
+    width: 100%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 40px;
+    box-sizing: border-box;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #EEEFF6;
+    font-size: 32px;
+    cursor: pointer;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .modal-content {
+      padding: 30px 20px;
+    }
+  }
+</style>
+
+<script>
+  const modal = document.querySelector("#story-modal");
+  const closeButton = modal?.querySelector(".close-button");
+
+  closeButton?.addEventListener("click", () => {
+    modal?.classList.remove("active");
+  });
+
+  modal?.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+</script>
