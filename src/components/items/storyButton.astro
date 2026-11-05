@@ -1,0 +1,51 @@
+---
+import Frame from "./Frame.astro";
+import Modal from "./modal.astro";
+---
+
+<div class="story-button-frame">
+  <Frame>
+    <button class="story-button" id="story-button">
+      物語
+    </button>
+  </Frame>
+</div>
+
+<Modal />
+
+<script>
+  const button = document.querySelector("#story-button");
+  const modal = document.querySelector("#story-modal");
+
+  button?.addEventListener("click", () => {
+    modal?.classList.add("active");
+  });
+</script>
+
+<style>
+  .story-button-frame {
+    width: 60%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .story-button {
+    background-image: url("/story-button.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;
+
+    border: none;
+    color: #EEEFF6;
+    font-size: 20px;
+    cursor: pointer;
+    width: 100%;
+    padding: 20px 10px;
+
+    transition: background-color 0.3s ease;
+  }
+
+  .story-button:hover {
+    background-color: #EEEFFf30;
+  }
+</style>
