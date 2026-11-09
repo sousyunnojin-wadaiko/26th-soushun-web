@@ -703,3 +703,109 @@ body {
     margin-bottom: 14px;
   }
 }
+
+
+/* =========================
+   予約ステップ
+========================= */
+
+.reservation-login {
+  width: min(100% - 32px, 650px);
+  margin: 32px auto 40px;
+  text-align: left;
+}
+
+.reservation-step {
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.reservation-step-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.reservation-step-number {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  background: #a83232;
+  color: #fff;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.reservation-step-heading h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.reservation-step-description {
+  margin: 0 0 20px;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.reservation-form-link {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 12px 28px;
+  background: #a83232;
+  color: #fff;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.reservation-form-link:hover {
+  background: #872525;
+  color: #fff;
+}
+
+.reservation-step-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  color: #a83232;
+  font-size: 24px;
+}
+
+.reservation-step .id-form {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .reservation-login {
+    margin: 20px auto 30px;
+  }
+
+  .reservation-step {
+    padding: 18px;
+  }
+
+  .reservation-step-heading h3 {
+    font-size: 16px;
+  }
+
+  .reservation-step-description {
+    font-size: 13px;
+  }
+
+  .reservation-form-link {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+  }
+}

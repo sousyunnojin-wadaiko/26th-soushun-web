@@ -66,15 +66,45 @@ const cameraSeats = new Set([
       </header>
 
       <div id="reservation-login" class="reservation-login">
-        <p class="reservation-guide">
-          予約IDを入力してください。<br class="desktop-only" />
-          予約IDは、お申し込み時にご入力いただいたメールアドレス宛にお送りしております。
-        </p>
+        <section class="reservation-step">
+          <div class="reservation-step-heading">
+            <span class="reservation-step-number">STEP 1</span>
+            <h3>予約フォームに回答</h3>
+          </div>
 
-        <div id="id-form" class="id-form">
-          <input id="reservation-id" type="text" placeholder="予約ID" />
-          <button id="check-button">確認</button>
+          <p class="reservation-step-description">
+            はじめに、予約フォームから必要事項をご入力ください。
+          </p>
+
+          <a
+            href="https://forms.gle/dAKW4USFRwheYtAE7"
+            class="reservation-form-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            予約フォームを開く
+          </a>
+        </section>
+
+        <div class="reservation-step-divider">
+          <span>↓</span>
         </div>
+
+        <section class="reservation-step">
+          <div class="reservation-step-heading">
+            <span class="reservation-step-number">STEP 2</span>
+            <h3>予約IDを入力</h3>
+          </div>
+
+          <p class="reservation-step-description">
+            予約IDは、お申し込み時にご入力いただいたメールアドレス宛にお送りしております。
+          </p>
+
+          <div id="id-form" class="id-form">
+            <input id="reservation-id" type="text" placeholder="予約ID" />
+            <button id="check-button">確認</button>
+          </div>
+        </section>
       </div>
 
       <div id="loading" class="loading-overlay" hidden>
