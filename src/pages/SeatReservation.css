@@ -1,228 +1,811 @@
+@import url('https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap');
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 .reservation {
-    width: 100%;
-    text-align: center;
-  }
+  width: 100%;
+  text-align: center;
+  font-family: "Hina Mincho", serif;
+}
 
-  .id-form {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 24px auto;
-  }
+.reservation input,
+.reservation button {
+  font-family: Arial, sans-serif;
+}
 
-  .id-form input {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
+/* =========================
+   予約ページヘッダー
+========================= */
 
-  .id-form button,
-  .confirm-btn,
-  .cancel-btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-  }
+.reservation-header {
+  width: 100%;
+  margin: 0 0 30px;
+  background: #242424;
+  color: white;
+}
 
-  .id-form button {
-    background: #333;
-  }
+.reservation-header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 
-  button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
+  padding: 20px 32px;
+  margin: 0;
+  background: transparent;
+}
 
-  .legend {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin: 20px 0;
-    font-size: 12px;
-  }
+.reservation-header-titles {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  white-space: nowrap;
+}
 
-  .legend span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
+.reservation-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 200;
+  letter-spacing: 0.08em;
+}
 
-  .legend i {
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
-  }
+.reservation-subtitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #ccc;
+}
 
-  .available-color { background: #b8e6c5; }
-  .selected-color { background: #facc15; }
-  .reserved-color { background: #aaa; }
-  .mine-color { background: #f6a6c8; }
-
-  .theater {
-    width: 100%;
-    overflow-x: auto;
-    padding: 20px 0;
-  }
-
-  .seat-area {
-    min-width: 650px;
-    width: fit-content;
-    margin: auto;
-  }
-
-  .stage {
-    width: 70%;
-    margin: 0 auto 30px;
-    padding: 14px;
-    background: #333;
-    color: white;
-    border-radius: 50% 50% 0 0;
-    letter-spacing: 4px;
-  }
-
-  .seat-map {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .seat-row {
-    display: grid;
-    grid-template-columns: 65px 1fr 18px 1fr 18px 1fr;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .row-info {
-    text-align: left;
-    font-size: 12px;
-  }
-
-  .row-label {
-    font-weight: bold;
-  }
-
-  .row-note {
-    color: #888;
-    font-size: 10px;
-  }
-
-  .seat-block {
-    display: flex;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .aisle {
-    width: 18px;
-  }
-
-  .seat {
-    width: 34px;
-    height: 30px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 5px 5px 2px 2px;
-    font-size: 9px;
-    background: #b8e6c5;
-    color: #245b35;
-    cursor: pointer;
-  }
-
-  .seat.selected {
-    background: #facc15;
-    color: #713f12;
-    outline: 2px solid #ca8a04;
-  }
-
-  .seat.reserved {
-    background: #aaa;
-    color: white;
-    cursor: not-allowed;
-  }
-
-  .seat.mine {
-    background: #f6a6c8;
-    color: #762345;
-    outline: 2px solid #d94d8b;
-  }
-
-  .action-area {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 25px 0;
-  }
-
-  .confirm-btn {
-    background: #16a34a;
-  }
-
-  .cancel-btn {
-    background: #dc2626;
-  }
-
-  .loading-overlay {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #0005;
-    z-index: 100;
-  }
-
-  .loading-overlay[hidden],
+.reservation-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
   [hidden] {
     display: none !important;
   }
+}
 
-  .loading-box {
-    background: white;
-    padding: 24px;
-    border-radius: 16px;
+.reservation-count {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #ddd;
+  padding-right: 24px;
+  border-right: 1px solid #555;
+}
+
+.reservation-count strong {
+  font-size: 24px;
+  color: white;
+}
+
+.reservation-header .legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+.reservation-header .legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.reservation-header .legend i {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.reservation-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 12px;
+  padding: 12px 20px;
+
+  background: #f1f5f9;
+  color: #475569;
+  border-radius: 8px;
+}
+
+.reservation-status p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .reservation-header-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
   }
 
-  .alert {
-    position: fixed;
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 200;
-    background: #fff0f6;
-    border: 2px solid #f9a8d4;
-    border-radius: 16px;
-    padding: 20px 28px;
-    color: #be185d;
-    box-shadow: 0 4px 16px #0002;
+  .reservation-header-titles {
+    gap: 10px;
   }
 
-  .fade-in {
-    animation: fadeIn 0.3s ease;
+  .reservation-title {
+    font-size: 20px;
   }
 
-  .fade-out {
-    animation: fadeOut 0.3s ease forwards;
+  .reservation-subtitle {
+    font-size: 11px;
+    letter-spacing: 0;
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translate(-50%, -10px);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
+  .reservation-header-right {
+    justify-content: flex-start;
+    gap: 12px;
   }
 
-  @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
+  .reservation-count {
+    padding-right: 0;
+    border-right: none;
   }
+
+  .reservation-header .legend {
+    justify-content: flex-start;
+  }
+
+  .reservation-status {
+    padding: 12px;
+    text-align: center;
+  }
+}
+
+/* 予約ID入力エリア */
+.reservation-login {
+  margin: 50px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* 案内文 */
+.reservation-guide {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+}
+
+.id-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto;
+}
+
+/* スマートフォン */
+@media (max-width: 768px) {
+  .reservation-guide {
+    font-size: 14px;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+}
+
+.id-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 24px auto;
+}
+
+.id-form input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.id-form button,
+.confirm-btn,
+.cancel-btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.id-form button {
+  background: #333;
+}
+
+.id-form button:disabled,
+.confirm-btn:disabled,
+.cancel-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.seat:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 20px 0;
+  font-size: 12px;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend i {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.available-color { background: #b8e6c5; }
+.selected-color { background: #facc15; }
+.reserved-color { background: #aaa; }
+.mine-color { background: #f6a6c8; }
+
+.theater {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px 0;
+}
+
+.seat-area {
+  width: 880px;
+  min-width: 880px;
+  margin: 0 auto;
+}
+
+.stage {
+  width: 70%;
+  margin: 0 auto 30px;
+  padding: 20px;
+  background: #333;
+  color: white;
+  letter-spacing: 5px;
+  border-radius: 0px 0px 12px 12px;
+}
+
+.seat-map {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.seat-section {
+  position: relative;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 50px 18px 10px;
+  background: #fff;
+}
+
+.seat-section-title {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  margin: 0;
+  padding: 4px 14px;
+  background: #fff;
+  color: #333;
+  text-align: left;
+}
+
+.seat-section-title h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.seat-section-note {
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #777;
+  white-space: nowrap;
+}
+
+.seat-section-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.floor-section {
+  border-color: #b8d8c2;
+}
+
+.riser-section {
+  border-color: #d1d5db;
+}
+
+.seat-row {
+  display: grid;
+  grid-template-columns: 1fr 18px 1fr 18px 1fr;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.seat-block {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.aisle {
+  width: 18px;
+}
+
+/* =========================
+   撮影専用席
+========================= */
+
+.seat.camera-seat,
+.seat.camera-seat:disabled {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+
+  opacity: 1;
+  cursor: not-allowed;
+
+  font-size: 16px;
+}
+.camera-color {
+  background: #dbeafe;
+  border: 1px solid #93c5fd;
+  box-sizing: border-box;
+}
+
+.seat {
+  width: 34px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px 5px 2px 2px;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  background: #b8e6c5;
+  color: #245b35;
+  cursor: pointer;
+}
+
+.seat.selected {
+  background: #facc15;
+  color: #713f12;
+  outline: 2px solid #ca8a04;
+}
+
+.seat.reserved {
+  background: #aaa;
+  color: white;
+  cursor: not-allowed;
+}
+
+.seat.mine {
+  background: #f6a6c8;
+  color: #762345;
+  outline: 2px solid #d94d8b;
+}
+
+.action-area {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.confirm-btn {
+  background: #16a34a;
+}
+
+.cancel-btn {
+  background: #dc2626;
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0005;
+  z-index: 100;
+}
+
+.loading-overlay[hidden],
+[hidden] {
+  display: none !important;
+}
+
+.loading-box {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.alert {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  background: #fff0f6;
+  border: 2px solid #f9a8d4;
+  border-radius: 16px;
+  padding: 20px 28px;
+  color: #be185d;
+  box-shadow: 0 4px 16px #0002;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+
+.floor-row[data-row="X"] {
+  --curve: -0.5px;
+  --center-gap: 20px;
+  --row-gap: 10px;
+}
+
+.floor-row[data-row="Y"] {
+  --curve: -0.5px;
+  --center-gap: 20px;
+  --row-gap: 10px;
+}
+
+.floor-row[data-row="Z"] {
+  --curve: -0.5px;
+  --center-gap: 25px;
+  --row-gap: 10px;
+}
+
+.floor-row {
+  margin-bottom: var(--row-gap, 20px);
+}
+
+.floor-row .seat {
+  transform: translateY(
+    calc(var(--curve) * var(--distance-squared))
+  );
+}
+
+.floor-row .floor-center-block {
+  gap: var(--center-gap, 4px);
+}
+
+/* =========================
+   座席ミニマップ
+========================= */
+
+.seat-minimap-container {
+  width: min(100% - 24px, 650px);
+  box-sizing: border-box;
+  margin: 20px auto 8px;
+  padding: 14px;
+
+  background: #f8fafc;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+}
+
+.seat-minimap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.seat-minimap-header > span:first-child {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.seat-minimap-guide {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.seat-minimap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  box-sizing: border-box;
+
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.seat-minimap:active {
+  cursor: grabbing;
+}
+
+/* 縮小した座席表 */
+.seat-minimap-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* 複製した座席表を操作不可にする */
+.seat-minimap-content .seat {
+  pointer-events: none;
+}
+
+/* 表示範囲外のグレー */
+.seat-minimap-shade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(75, 85, 99, 0.45);
+  pointer-events: none;
+}
+
+/* 現在表示している範囲 */
+.seat-minimap-viewport {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: 2px solid #2563eb;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.seat-minimap-caption {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: #64748b;
+  text-align: center;
+}
+
+@media (min-width: 769px) {
+  .seat-minimap-container {
+    display: none !important;
+  }
+}
+
+/* ミニマップ内では座席番号・カメラマークを非表示 */
+.seat-minimap-content .seat,
+.seat-minimap-content .seat.camera-seat,
+.seat-minimap-content .seat.camera-seat:disabled {
+  font-size: 0;
+}
+
+/* =========================
+   座席配置の参考画像
+========================= */
+.seat-reference {
+  width: min(100% - 32px, 900px);
+  margin: 40px auto 60px;
+  padding: 10px;
+  text-align: center;
+  background: #242424;
+  border-radius: 12px;
+}
+
+.seat-reference-title {
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 200;
+  color: white;
+}
+
+.seat-reference-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.seat-reference-image {
+  display: block;
+
+  width: 90%;
+  max-width: 400px;
+  aspect-ratio: 4 / 3;
+  height: auto;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: #f8fafc;
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
+
+.seat-reference-notice {
+  margin-top: 12px;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .seat-reference {
+    margin: 30px auto 40px;
+    padding: 8px;
+  }
+
+  .seat-reference-title {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+}
+
+
+/* =========================
+   予約ステップ
+========================= */
+
+.reservation-login {
+  width: min(100% - 32px, 650px);
+  margin: 32px auto 40px;
+  text-align: left;
+}
+
+.reservation-step {
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+}
+
+.reservation-step-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.reservation-step-number {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  background: #a83232;
+  color: #fff;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.reservation-step-heading h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.reservation-step-description {
+  margin: 0 0 20px;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.reservation-form-link {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 12px 28px;
+  background: #a83232;
+  color: #fff;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.reservation-form-link:hover {
+  background: #872525;
+  color: #fff;
+}
+
+.reservation-step-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  color: #a83232;
+  font-size: 24px;
+}
+
+.reservation-step .id-form {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .reservation-login {
+    margin: 20px auto 30px;
+  }
+
+  .reservation-step {
+    padding: 18px;
+  }
+
+  .reservation-step-heading h3 {
+    font-size: 16px;
+  }
+
+  .reservation-step-description {
+    font-size: 13px;
+  }
+
+  .reservation-form-link {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+  }
+}
