@@ -14,17 +14,10 @@ import StoryText from "../components/items/storyText.astro"
 import Frame from "../components/items/Frame.astro"
 import StoryButton from "../components/items/storyButton.astro"
 import PageButton from "../components/items/pageButton.astro";
-
-import "../../styles/global.css";
+import MainLayout from "../layouts/MainLayout.astro";
 ---
 
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>第26回 和太鼓 早春の陣</title>
-  </head>
-  <body class="overflow-x-hidden">
+<MainLayout title="第26回 和太鼓 早春の陣">
 	<Header />
 	<Hero />
 	<StoryText>
@@ -71,5 +64,4 @@ import "../../styles/global.css";
 		旅人らはすっかり冷え込んだ町を出て行き、春を呼ぶ鈴を探しにいきました ───
 	</StoryText>
 	<Footer />
-  </body>
-</html>
+</MainLayout>
