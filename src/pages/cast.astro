@@ -1,0 +1,343 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PageButton from "../components/items/pageButton.astro";
+import "../../styles/global.css";
+
+const title_icon_posi: "left" | "center" | "right" = "right";
+const title_icon_offset = 10;
+
+const title_icon_style =
+  title_icon_posi === "left"
+    ? `left: ${title_icon_offset}px;`
+    : title_icon_posi === "right"
+      ? `right: ${title_icon_offset}px;`
+      : "left: 50%; transform: translate(-50%, -50%);";
+
+const turukame = "/turukame_kari.png";
+const tenteko = "/tenteko_kari.jpg";
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>出演団体 | 第26回 和太鼓 早春の陣</title>
+  </head>
+
+  <body>
+    <Header />
+
+    <main class="cast-page">
+      <div class="cast-page-title-wrapper">
+        <img
+          src="/icon_wind.svg"
+          alt=""
+          aria-hidden="true"
+          class="cast-title-wind"
+          style={title_icon_style}
+        />
+        <h1 class="cast-page-title">出演団体</h1>
+      </div>
+
+      <!-- 鶴亀会 -->
+      <section class="cast-section">
+        <img
+          src="/wind-left.svg"
+          alt=""
+          aria-hidden="true"
+          class="cast-wind"
+        />
+
+        <div class="cast-image-wrapper">
+          <img
+            src={tenteko}
+            alt="輪太鼓衆 転太鼓舞"
+            class="cast-image"
+          />
+        </div>
+
+        <div class="cast-description">
+          <h2 class="cast-group-name">輪太鼓衆 転太鼓舞</h2>
+          <p>
+            長岡造形大学の和太鼓サークルです。
+            私たちは「輪になって楽しく太鼓を叩こう!」をコンセプトに、
+            日々太鼓練習に打ち込んでいます。
+            長岡市を中心として、県内各地のイベントやお祭りに参加し、
+            元気よく活動中です。
+            かけ声はいつも...「ちょいさー!」
+          </p>
+        </div>
+      </section>
+
+      <!-- 転太鼓舞 -->
+      <section class="cast-section reverse">
+        <img
+          src="/wind-right.svg"
+          alt=""
+          aria-hidden="true"
+          class="cast-wind"
+        />
+
+        <div class="cast-image-wrapper">
+          <img
+            src={turukame}
+            alt="悠久太鼓愛好会 鶴亀会"
+            class="cast-image"
+          />
+        </div>
+
+        <div class="cast-description">
+          <h2 class="cast-group-name">悠久太鼓愛好会 鶴亀会</h2>
+          <p>
+            長岡技術科学大学の和太鼓サークルです。
+            長岡市内を中心に各種イベントや老人ホーム等の施設に訪問して演奏しています。
+            また大花火大会で有名な"長岡まつり"をはじめ、
+            夏のお祭りシーズンにおいては連日フル活動!!
+            長岡市の至る所で我々の姿が見られるハズです!
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <PageButton
+      href="/"
+      background="/icon_wind.svg"
+      label="トップページに戻る"
+      position="right"
+      target="_self"
+    />
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  /* ===== ページ全体 ===== */
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  body {
+    overflow-x: clip;
+    /* 背景の上書き */
+    background: linear-gradient(
+      180deg,
+      #393c42 0%,
+      #477A63 50%,
+      #102F29 100%
+    );
+  }
+
+  .cast-page {
+    width: 100%;
+    padding: 100px 0;
+    font-family: "Hina Mincho", serif;
+    
+  }
+
+  /* ===== ページタイトル ===== */
+
+  .cast-page-title-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    min-width: 300px;
+    margin: 60px auto;
+  }
+
+  .cast-title-wind {
+    position: absolute;
+    width: 100px;
+    height: auto;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    pointer-events: none;
+  }
+
+  .cast-page-title {
+    position: relative;
+    z-index: 1;
+
+    margin: 0;
+    padding: 10px 60px;
+
+    color: #EEEFF6;
+    font-family: "Hina Mincho", serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+  }
+
+  /* ===== 団体紹介 ===== */
+
+  .cast-section {
+    position: relative;
+    isolation: isolate;
+
+    display: grid;
+    grid-template-columns: minmax(0, 55%) minmax(0, 45%);
+    align-items: center;
+    gap: 30px;
+
+    width: 100%;
+    max-width: 1500px;
+    min-height: 550px;
+
+    margin: 0 auto 50px;
+    padding: 40px 5%;
+    box-sizing: border-box;
+  }
+
+  .cast-section:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 2団体目は左右反転 */
+  .cast-section.reverse {
+    grid-template-columns: minmax(0, 45%) minmax(0, 55%);
+  }
+
+  .cast-section.reverse .cast-image-wrapper {
+    order: 2;
+  }
+
+  .cast-section.reverse .cast-description {
+    order: 1;
+  }
+
+  /* ===== 風の装飾 ===== */
+
+  .cast-wind {
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+
+    width: 70%;
+    height: auto;
+
+    top: 20%;
+    left: -5%;
+    transform: translateY(-50%);
+  }
+
+  /* 右側の風 */
+  .cast-section.reverse .cast-wind {
+    left: auto;
+    top: 80%;
+    right: -5%;
+  }
+
+  /* ===== 写真 ===== */
+
+  .cast-image-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cast-image {
+    display: block;
+    width: 100%;
+    height: clamp(280px, 30vw, 450px);
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+  }
+
+  /* ===== 紹介文 ===== */
+
+  .cast-description {
+    min-width: 0;
+    padding: 20px clamp(10px, 3vw, 50px);
+    box-sizing: border-box;
+    text-align: left;
+    color: #EEEFF6;
+  }
+
+  .cast-group-name {
+    margin: 0 0 24px;
+    font-size: clamp(24px, 2.5vw, 36px);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+
+  .cast-description p {
+    margin: 0;
+    font-size: clamp(15px, 1.15vw, 19px);
+    line-height: 2;
+  }
+
+  /* ===== スマホ表示 ===== */
+
+  @media (max-width: 768px) {
+    .cast-page {
+      padding: 50px 0;
+    }
+
+    .cast-section,
+    .cast-section.reverse {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+
+      min-height: 0;
+      margin-bottom: 0px;
+      padding: 30px 24px;
+    }
+
+    /* 写真を先、文章を後に */
+    .cast-section .cast-image-wrapper,
+    .cast-section.reverse .cast-image-wrapper {
+      order: 1;
+      width: 100%;
+    }
+
+    .cast-section .cast-description,
+    .cast-section.reverse .cast-description {
+      order: 2;
+      width: 100%;
+    }
+
+    .cast-image {
+      height: auto;
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+    }
+
+    .cast-description {
+      padding: 10px 0;
+    }
+
+    .cast-group-name {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .cast-description p {
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    /* スマホの風 */
+    .cast-wind {
+      width: 80%;
+      left: -5%;
+      top: 10%;
+    }
+
+    .cast-section.reverse .cast-wind {
+      left: auto;
+      right: -5%;
+      top: 45%;
+    }
+  }
+</style>
