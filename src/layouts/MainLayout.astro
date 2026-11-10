@@ -14,7 +14,21 @@ const { title = "第26回 和太鼓 早春の陣" } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
   </head>
-  <body class="overflow-x-hidden">
+  <body class="main-bg overflow-x-hidden">
     <slot />
   </body>
 </html>
+
+<style>
+  /* メインページ専用の背景（Figma: メインpage > Frame 23）
+     ページ全体の高さに対して色の比率を固定する */
+  .main-bg {
+    background-image: linear-gradient(
+      180deg,
+      #4b4b4b 0%,
+      #0e182b 69.231%,
+      #6b261c 84.615%,
+      #aba36c 100%
+    );
+  }
+</style>
