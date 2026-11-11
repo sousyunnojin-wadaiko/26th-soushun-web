@@ -15,11 +15,14 @@ import Frame from "../components/items/Frame.astro"
 import StoryButton from "../components/items/storyButton.astro"
 import PageButton from "../components/items/pageButton.astro";
 import MainLayout from "../layouts/MainLayout.astro";
+
+const footerImage = "/cloud_img.svg";
 ---
 
 <MainLayout title="第26回 和太鼓 早春の陣">
 	<Header />
 	<Hero />
+	<img src={footerImage} alt="" class="opacity-30"/>
 	<StoryText>
   		四季がなくなってしまった世界
 		<br/><br/><br/>
