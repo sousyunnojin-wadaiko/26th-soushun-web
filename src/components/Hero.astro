@@ -71,12 +71,20 @@ const shards = Array.from(
     ))}
   </div>
   
+  <!-- Hero Image -->
   <img
     src={heroImage}
     alt=""
     class="hero__image"
   />
 
+  <!-- Clouds -->
+  <img class="cloud_1" src="/icon_cloud1.svg" alt="" aria-hidden="true"/>
+  <img class="cloud_2" src="/icon_cloud2.svg" alt="" aria-hidden="true"/>
+  <img class="cloud_3" src="/icon_cloud3.svg" alt="" aria-hidden="true"/>
+  <img class="cloud_4" src="/icon_cloud4.svg" alt="" aria-hidden="true"/>
+
+  <!-- event name -->
   <div class="hero__event-name vertical-text">
     <h3>第二十六回 和太鼓 早春の陣</h3>
   </div>
@@ -459,6 +467,65 @@ const shards = Array.from(
   .vertical-text::before {
     inset: -15px;
     filter: blur(15px);
+  }
+}
+
+.cloud_1, .cloud_2, .cloud_3, .cloud_4 {
+  position: absolute;
+  z-index: 0;
+  height: auto;
+  opacity: 0.3;
+}
+
+.cloud_1 {
+  right: 15%;
+  bottom: 20%;
+  width: 6%;
+}
+
+.cloud_2 {
+  left: 25%;
+  top: 33%;
+  width: 5%;
+}
+
+.cloud_3 {
+  right: 20%;
+  bottom: 10%;
+  width: 15%;
+}
+
+.cloud_4 {
+  left: 30%;
+  top: 20%;
+  width: 13%;
+}
+
+@media (max-width: 768px) {
+  .cloud_1 {
+    right: 30%;
+    bottom: 3%;
+    width: 10%;
+  }
+
+  .cloud_2 {
+    left: auto;
+    top: auto;
+    right: 20%;
+    bottom: 5%;
+    width: 10%;
+  }
+
+  .cloud_3 {
+    right: 3%;
+    bottom: 10%;
+    width: 30%;
+  }
+
+  .cloud_4 {
+    left: 8%;
+    top: 30%;
+    width: 30%;
   }
 }
 </style>
