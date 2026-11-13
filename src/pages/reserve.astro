@@ -1,5 +1,19 @@
 ---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PageButton from "../components/items/pageButton.astro";
+import "../../styles/global.css";
 import "./SeatReservation.css";
+
+const title_icon_posi: "left" | "center" | "right" = "right";
+const title_icon_offset = 10;
+
+const title_icon_style =
+  title_icon_posi === "left"
+    ? `left: ${title_icon_offset}px;`
+    : title_icon_posi === "right"
+      ? `right: ${title_icon_offset}px;`
+      : "left: 50%; transform: translate(-50%, -50%);";
 
 const API_URL = import.meta.env.PUBLIC_GAS_API_URL;
 
@@ -33,37 +47,41 @@ const cameraSeats = new Set([
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>座席予約ページ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>席予約 | 第26回 和太鼓 早春の陣</title>
   </head>
+
   <body>
-    <div class="reservation">
+    <Header />
 
-      <header class="reservation-header">
-        <div class="reservation-header-main">
-          <div class="reservation-header-titles">
-            <h2 class="reservation-title">座席予約</h2>
-            <h3 class="reservation-subtitle">第26回和太鼓早春の陣</h3>
-          </div>
+    <main class="reserve-page">
+      <div class="title-wrapper">
+        <img
+          src="/icon_fire.svg"
+          alt=""
+          aria-hidden="true"
+          class="title-icon"
+          style={title_icon_style}
+        />
+        <h1 class="page-title">席予約</h1>
+      </div>
 
-          <!-- 予約人数とlegend -->
-          <div id="reservation-header-info" class="reservation-header-right" hidden>
-            <div class="reservation-count">
-              <span>予約人数</span>
-              <strong id="allowed-seats">0</strong>
-              <span>名</span>
-            </div>
-            
-            <div class="legend">
-              <span><i class="available-color"></i>空席</span>
-              <span><i class="selected-color"></i>選択中</span>
-              <span><i class="reserved-color"></i>予約済み</span>
-              <span><i class="mine-color"></i>自分の席</span>
-              <span><i class="camera-color"></i>撮影専用</span>
-            </div>
-          </div>
+      <!-- 予約人数とlegend -->
+      <div id="reservation-header-info" class="reservation-header-right" hidden>
+        <div class="reservation-count">
+          <span>予約人数</span>
+          <strong id="allowed-seats">0</strong>
+          <span>名</span>
         </div>
-      </header>
+        
+        <div class="legend">
+          <span><i class="available-color"></i>空席</span>
+          <span><i class="selected-color"></i>選択中</span>
+          <span><i class="reserved-color"></i>予約済み</span>
+          <span><i class="mine-color"></i>自分の席</span>
+          <span><i class="camera-color"></i>撮影専用</span>
+        </div>
+      </div>
 
       <div id="reservation-login" class="reservation-login">
         <section class="reservation-step">
@@ -237,38 +255,46 @@ const cameraSeats = new Set([
         <h3 class="seat-reference-title">座席配置の参考画像</h3>
 
         <div class="seat-reference-wrapper">
-          <img
-            src="/img_seat.svg"
-            alt="会場の座席配置の参考画像"
-            class="seat-reference-image"
-            loading="lazy"
-            draggable="false"
-            oncontextmenu="return false;"
-          />
-          <img
-            src="/img_seat_kamite.svg"
-            alt="上手側の参考画像"
-            class="seat-reference-image"
-            loading="lazy"
-            draggable="false"
-            oncontextmenu="return false;"
-          />
-          <img
-            src="/img_seat_center.svg"
-            alt="中央の参考画像"
-            class="seat-reference-image"
-            loading="lazy"
-            draggable="false"
-            oncontextmenu="return false;"
-          />
-          <img
-            src="/img_seat_shimote.svg"
-            alt="下手側の参考画像"
-            class="seat-reference-image"
-            loading="lazy"
-            draggable="false"
-            oncontextmenu="return false;"
-          />
+          <div class="ref-img-container">
+            <img
+              src="/img_seat.svg"
+              alt="会場の座席配置の参考画像"
+              class="seat-reference-image"
+              loading="lazy"
+              draggable="false"
+              oncontextmenu="return false;"
+            />
+          </div>
+          <div class="ref-img-container">
+            <img
+              src="/img_seat_kamite.svg"
+              alt="上手側の参考画像"
+              class="seat-reference-image"
+              loading="lazy"
+              draggable="false"
+              oncontextmenu="return false;"
+            />
+          </div>
+          <div class="ref-img-container">
+            <img
+              src="/img_seat_center.svg"
+              alt="中央の参考画像"
+              class="seat-reference-image"
+              loading="lazy"
+              draggable="false"
+              oncontextmenu="return false;"
+            />
+          </div>
+          <div class="ref-img-container">
+            <img
+              src="/img_seat_shimote.svg"
+              alt="下手側の参考画像"
+              class="seat-reference-image"
+              loading="lazy"
+              draggable="false"
+              oncontextmenu="return false;"
+            />
+          </div>
         </div>
         <p class="seat-reference-notice">
           ※ 画像の無断転載・複製・二次利用はご遠慮ください。
@@ -278,7 +304,16 @@ const cameraSeats = new Set([
       <div id="alert" class="alert" hidden>
         <p id="alert-message"></p>
       </div>
-    </div>
+    </main>
+
+    <PageButton
+      href="/"
+      background="/icon_fire.svg"
+      label="トップページに戻る"
+      position="right"
+    />
+
+    <Footer />
   </body>
 </html>
 
