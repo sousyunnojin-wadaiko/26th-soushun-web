@@ -1,19 +1,6 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import PageButton from "../components/items/pageButton.astro";
-import "../../styles/global.css";
+import OtherLayout from "../layouts/OtherLayout.astro";
 import "./SeatReservation.css";
-
-const title_icon_posi: "left" | "center" | "right" = "right";
-const title_icon_offset = 10;
-
-const title_icon_style =
-  title_icon_posi === "left"
-    ? `left: ${title_icon_offset}px;`
-    : title_icon_posi === "right"
-      ? `right: ${title_icon_offset}px;`
-      : "left: 50%; transform: translate(-50%, -50%);";
 
 const API_URL = import.meta.env.PUBLIC_GAS_API_URL;
 
@@ -44,278 +31,252 @@ const cameraSeats = new Set([
   "I-8", "I-9", "I-10",
 ]);
 ---
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>席予約 | 第26回 和太鼓 早春の陣</title>
-  </head>
 
-  <body>
-    <Header />
+<OtherLayout
+  title="席予約 | 第26回 和太鼓 早春の陣"
+  pageTitle="席予約"
+  bg="fire"
+>
 
-    <main class="reserve-page">
-      <div class="title-wrapper">
+  <!-- 予約人数とlegend -->
+  <div id="reservation-header-info" class="reservation-header-right" hidden>
+    <div class="reservation-count">
+      <span>予約人数</span>
+      <strong id="allowed-seats">0</strong>
+      <span>名</span>
+    </div>
+    
+    <div class="legend">
+      <span><i class="available-color"></i>空席</span>
+      <span><i class="selected-color"></i>選択中</span>
+      <span><i class="reserved-color"></i>予約済み</span>
+      <span><i class="mine-color"></i>自分の席</span>
+      <span><i class="camera-color"></i>撮影専用</span>
+    </div>
+  </div>
+
+  <div id="reservation-login" class="reservation-login">
+    <section class="reservation-step">
+      <div class="reservation-step-heading">
+        <span class="reservation-step-number">STEP 1</span>
+        <h3>予約フォームに回答</h3>
+      </div>
+
+      <p class="reservation-step-description">
+        はじめに、予約フォームから必要事項をご入力ください。
+      </p>
+
+      <a
+        href="https://forms.gle/dAKW4USFRwheYtAE7"
+        class="reservation-form-link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        予約フォームを開く
+      </a>
+    </section>
+
+    <div class="reservation-step-divider">
+      <span>↓</span>
+    </div>
+
+    <section class="reservation-step">
+      <div class="reservation-step-heading">
+        <span class="reservation-step-number">STEP 2</span>
+        <h3>予約IDを入力</h3>
+      </div>
+
+      <p class="reservation-step-description">
+        予約IDは、お申し込み時にご入力いただいたメールアドレス宛にお送りしております。
+      </p>
+
+      <div id="id-form" class="id-form">
+        <input id="reservation-id" type="text" placeholder="予約ID" />
+        <button id="check-button">確認</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="loading" class="loading-overlay" hidden>
+    <div class="loading-box">
+      <p>少々お待ちください… ⏳</p>
+    </div>
+  </div>
+
+  <div id="reservation-content" hidden>
+    <div class="reservation-status">
+      <p id="selection-info">座席を選択してください</p>
+    </div>
+
+    <div id="seat-minimap-container" class="seat-minimap-container" hidden>
+      <div class="seat-minimap-header">
+        <span>座席全体図</span>
+        <span class="seat-minimap-guide">枠をタップして移動できます</span>
+      </div>
+
+      <div id="seat-minimap" class="seat-minimap" aria-label="座席表の表示位置を移動">
+        <div id="seat-minimap-content" class="seat-minimap-content" aria-hidden="true"></div>
+        <div class="seat-minimap-shade seat-minimap-shade-left"></div>
+        <div class="seat-minimap-shade seat-minimap-shade-right"></div>
+        <div class="seat-minimap-viewport"></div>
+      </div>
+      <p class="seat-minimap-caption">
+        明るい範囲が現在表示されいている座席です
+      </p>
+    </div>
+
+    <div class="theater" id="seat-theater">
+      <div class="seat-area">
+        <div class="stage">STAGE</div>
+
+        <div class="seat-map">
+          {seatSections.map((section) => (
+            <section class={`seat-section ${section.className}`}>
+              <div class="seat-section-title">
+                <h3>{section.name}</h3>
+                {section.note && <p class="seat-section-note"> ※ {section.note}</p>}
+              </div>
+
+              <div class="seat-section-rows">
+                {section.rows.map((rowLabel) => {
+                  const isFloorRow = ["X", "Y", "Z"].includes(rowLabel);
+
+                  const currentLayout = isFloorRow
+                    ? floorLayout[rowLabel as keyof typeof floorLayout]
+                    : riserLayout;
+
+                  const totalSeats = currentLayout.reduce(
+                    (a, b) => a + b, 0
+                  );
+                  const center = (totalSeats + 1) / 2;
+
+                  return (
+                    <div
+                      class={`seat-row ${isFloorRow ? "floor-row" : "riser-row"}`}
+                      data-row={rowLabel}
+                    >
+                      {currentLayout.map((count, blockIndex) => (
+                        <>
+                          <div
+                            class={`seat-block ${
+                              isFloorRow && blockIndex === 1
+                                ? "floor-center-block"
+                                : ""
+                            }`}
+                          >
+                            {Array.from({ length: count }, (_, i) => {
+                              const number =
+                                currentLayout
+                                  .slice(0, blockIndex)
+                                  .reduce((a, b) => a + b, 0)
+                                + i + 1;
+
+                              const distance = number - center;
+                              const seatId = `${rowLabel}-${number}`;
+                              const isCameraSeat = cameraSeats.has(seatId);
+
+                              return (
+                                <button
+                                  type="button"
+                                  class={`seat ${isCameraSeat ? "camera-seat" : "available"}`}
+                                  data-seat-id={seatId}
+                                  aria-label={
+                                    isCameraSeat
+                                      ? `${seatId} 撮影専用席（予約不可）`
+                                      : seatId
+                                  }
+                                  title={isCameraSeat ? `${seatId} 撮影専用席` : seatId}
+                                  disabled={isCameraSeat}
+                                  style={
+                                    isFloorRow
+                                      ? `--distance-squared: ${distance * distance};`
+                                      : undefined
+                                  }
+                                >
+                                  {isCameraSeat ? "📷" : seatId}
+                                </button>
+                              );
+                            })}
+                          </div>
+
+                          {blockIndex < 2 && <div class="aisle"></div>}
+                        </>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="action-area">
+      <button id="confirm-button" class="confirm-btn" disabled>
+        予約確定
+      </button>
+
+      <button id="cancel-button" class="cancel-btn" hidden>
+        予約取消
+      </button>
+    </div>
+  </div>
+
+  <section class="seat-reference">
+    <h3 class="seat-reference-title">座席配置の参考画像</h3>
+
+    <div class="seat-reference-wrapper">
+      <div class="ref-img-container">
         <img
-          src="/icon_fire.svg"
-          alt=""
-          aria-hidden="true"
-          class="title-icon"
-          style={title_icon_style}
+          src="/img_seat.svg"
+          alt="会場の座席配置の参考画像"
+          class="seat-reference-image"
+          loading="lazy"
+          draggable="false"
+          oncontextmenu="return false;"
         />
-        <h1 class="page-title">席予約</h1>
       </div>
-
-      <!-- 予約人数とlegend -->
-      <div id="reservation-header-info" class="reservation-header-right" hidden>
-        <div class="reservation-count">
-          <span>予約人数</span>
-          <strong id="allowed-seats">0</strong>
-          <span>名</span>
-        </div>
-        
-        <div class="legend">
-          <span><i class="available-color"></i>空席</span>
-          <span><i class="selected-color"></i>選択中</span>
-          <span><i class="reserved-color"></i>予約済み</span>
-          <span><i class="mine-color"></i>自分の席</span>
-          <span><i class="camera-color"></i>撮影専用</span>
-        </div>
+      <div class="ref-img-container">
+        <img
+          src="/img_seat_kamite.svg"
+          alt="上手側の参考画像"
+          class="seat-reference-image"
+          loading="lazy"
+          draggable="false"
+          oncontextmenu="return false;"
+        />
       </div>
-
-      <div id="reservation-login" class="reservation-login">
-        <section class="reservation-step">
-          <div class="reservation-step-heading">
-            <span class="reservation-step-number">STEP 1</span>
-            <h3>予約フォームに回答</h3>
-          </div>
-
-          <p class="reservation-step-description">
-            はじめに、予約フォームから必要事項をご入力ください。
-          </p>
-
-          <a
-            href="https://forms.gle/dAKW4USFRwheYtAE7"
-            class="reservation-form-link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            予約フォームを開く
-          </a>
-        </section>
-
-        <div class="reservation-step-divider">
-          <span>↓</span>
-        </div>
-
-        <section class="reservation-step">
-          <div class="reservation-step-heading">
-            <span class="reservation-step-number">STEP 2</span>
-            <h3>予約IDを入力</h3>
-          </div>
-
-          <p class="reservation-step-description">
-            予約IDは、お申し込み時にご入力いただいたメールアドレス宛にお送りしております。
-          </p>
-
-          <div id="id-form" class="id-form">
-            <input id="reservation-id" type="text" placeholder="予約ID" />
-            <button id="check-button">確認</button>
-          </div>
-        </section>
+      <div class="ref-img-container">
+        <img
+          src="/img_seat_center.svg"
+          alt="中央の参考画像"
+          class="seat-reference-image"
+          loading="lazy"
+          draggable="false"
+          oncontextmenu="return false;"
+        />
       </div>
-
-      <div id="loading" class="loading-overlay" hidden>
-        <div class="loading-box">
-          <p>少々お待ちください… ⏳</p>
-        </div>
+      <div class="ref-img-container">
+        <img
+          src="/img_seat_shimote.svg"
+          alt="下手側の参考画像"
+          class="seat-reference-image"
+          loading="lazy"
+          draggable="false"
+          oncontextmenu="return false;"
+        />
       </div>
+    </div>
+    <p class="seat-reference-notice">
+      ※ 画像の無断転載・複製・二次利用はご遠慮ください。
+    </p>
+  </section>
 
-      <div id="reservation-content" hidden>
-        <div class="reservation-status">
-          <p id="selection-info">座席を選択してください</p>
-        </div>
-
-        <div id="seat-minimap-container" class="seat-minimap-container" hidden>
-          <div class="seat-minimap-header">
-            <span>座席全体図</span>
-            <span class="seat-minimap-guide">枠をタップして移動できます</span>
-          </div>
-
-          <div id="seat-minimap" class="seat-minimap" aria-label="座席表の表示位置を移動">
-            <div id="seat-minimap-content" class="seat-minimap-content" aria-hidden="true"></div>
-            <div class="seat-minimap-shade seat-minimap-shade-left"></div>
-            <div class="seat-minimap-shade seat-minimap-shade-right"></div>
-            <div class="seat-minimap-viewport"></div>
-          </div>
-          <p class="seat-minimap-caption">
-            明るい範囲が現在表示されいている座席です
-          </p>
-        </div>
-
-        <div class="theater" id="seat-theater">
-          <div class="seat-area">
-            <div class="stage">STAGE</div>
-
-            <div class="seat-map">
-              {seatSections.map((section) => (
-                <section class={`seat-section ${section.className}`}>
-                  <div class="seat-section-title">
-                    <h3>{section.name}</h3>
-                    {section.note && <p class="seat-section-note"> ※ {section.note}</p>}
-                  </div>
-
-                  <div class="seat-section-rows">
-                    {section.rows.map((rowLabel) => {
-                      const isFloorRow = ["X", "Y", "Z"].includes(rowLabel);
-
-                      const currentLayout = isFloorRow
-                        ? floorLayout[rowLabel as keyof typeof floorLayout]
-                        : riserLayout;
-
-                      const totalSeats = currentLayout.reduce(
-                        (a, b) => a + b, 0
-                      );
-                      const center = (totalSeats + 1) / 2;
-
-                      return (
-                        <div
-                          class={`seat-row ${isFloorRow ? "floor-row" : "riser-row"}`}
-                          data-row={rowLabel}
-                        >
-                          {currentLayout.map((count, blockIndex) => (
-                            <>
-                              <div
-                                class={`seat-block ${
-                                  isFloorRow && blockIndex === 1
-                                    ? "floor-center-block"
-                                    : ""
-                                }`}
-                              >
-                                {Array.from({ length: count }, (_, i) => {
-                                  const number =
-                                    currentLayout
-                                      .slice(0, blockIndex)
-                                      .reduce((a, b) => a + b, 0)
-                                    + i + 1;
-
-                                  const distance = number - center;
-                                  const seatId = `${rowLabel}-${number}`;
-                                  const isCameraSeat = cameraSeats.has(seatId);
-
-                                  return (
-                                    <button
-                                      type="button"
-                                      class={`seat ${isCameraSeat ? "camera-seat" : "available"}`}
-                                      data-seat-id={seatId}
-                                      aria-label={
-                                        isCameraSeat
-                                          ? `${seatId} 撮影専用席（予約不可）`
-                                          : seatId
-                                      }
-                                      title={isCameraSeat ? `${seatId} 撮影専用席` : seatId}
-                                      disabled={isCameraSeat}
-                                      style={
-                                        isFloorRow
-                                          ? `--distance-squared: ${distance * distance};`
-                                          : undefined
-                                      }
-                                    >
-                                      {isCameraSeat ? "📷" : seatId}
-                                    </button>
-                                  );
-                                })}
-                              </div>
-
-                              {blockIndex < 2 && <div class="aisle"></div>}
-                            </>
-                          ))}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div class="action-area">
-          <button id="confirm-button" class="confirm-btn" disabled>
-            予約確定
-          </button>
-
-          <button id="cancel-button" class="cancel-btn" hidden>
-            予約取消
-          </button>
-        </div>
-      </div>
-
-      <section class="seat-reference">
-        <h3 class="seat-reference-title">座席配置の参考画像</h3>
-
-        <div class="seat-reference-wrapper">
-          <div class="ref-img-container">
-            <img
-              src="/img_seat.svg"
-              alt="会場の座席配置の参考画像"
-              class="seat-reference-image"
-              loading="lazy"
-              draggable="false"
-              oncontextmenu="return false;"
-            />
-          </div>
-          <div class="ref-img-container">
-            <img
-              src="/img_seat_kamite.svg"
-              alt="上手側の参考画像"
-              class="seat-reference-image"
-              loading="lazy"
-              draggable="false"
-              oncontextmenu="return false;"
-            />
-          </div>
-          <div class="ref-img-container">
-            <img
-              src="/img_seat_center.svg"
-              alt="中央の参考画像"
-              class="seat-reference-image"
-              loading="lazy"
-              draggable="false"
-              oncontextmenu="return false;"
-            />
-          </div>
-          <div class="ref-img-container">
-            <img
-              src="/img_seat_shimote.svg"
-              alt="下手側の参考画像"
-              class="seat-reference-image"
-              loading="lazy"
-              draggable="false"
-              oncontextmenu="return false;"
-            />
-          </div>
-        </div>
-        <p class="seat-reference-notice">
-          ※ 画像の無断転載・複製・二次利用はご遠慮ください。
-        </p>
-      </section>
-
-      <div id="alert" class="alert" hidden>
-        <p id="alert-message"></p>
-      </div>
-    </main>
-
-    <PageButton
-      href="/"
-      background="/icon_fire.svg"
-      label="トップページに戻る"
-      position="right"
-    />
-
-    <Footer />
-  </body>
-</html>
+  <div id="alert" class="alert" hidden>
+    <p id="alert-message"></p>
+  </div>
+</OtherLayout>
 
 <script define:vars={{ API_URL }}>
   const reservationIdInput = document.querySelector("#reservation-id");
