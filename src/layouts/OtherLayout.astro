@@ -1,0 +1,161 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PageButton from "../components/items/pageButton.astro";
+import "../../styles/global.css";
+
+interface Props {
+  title?: string;
+  pageTitle?: string;
+  bg?: "wind" | "forest" | "fire" | "mountain";
+  title_icon_posi?: "left" | "center" | "right";
+  title_icon_offset?: number;
+}
+
+const {
+  title = "第26回 和太鼓 早春の陣",
+  pageTitle = "",
+  bg = "wind",
+  title_icon_posi = "right",
+  title_icon_offset = 10,
+} = Astro.props;
+
+const titleIconStyle =
+  title_icon_posi === "left"
+    ? `left: ${title_icon_offset}px;`
+    : title_icon_posi === "right"
+      ? `right: ${title_icon_offset}px;`
+      : "left: 50%; transform: translate(-50%, -50%);";
+
+const iconSrc = `/icon_${bg}.svg`;
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+  <body class={`bg-${bg}`}>
+    <Header />
+
+    <main class="other-page">
+      {pageTitle && (
+        <div class="title-wrapper">
+          <img
+            src={iconSrc}
+            alt=""
+            aria-hidden="true"
+            class="title-icon"
+            style={titleIconStyle}
+          />
+          <h1 class="page-title">{pageTitle}</h1>
+        </div>
+      )}
+
+      <slot />
+    </main>
+    <PageButton
+      href="/#MoveTheme"
+      background={iconSrc}
+      label="トップページに戻る"
+      position={title_icon_posi}
+    />
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  :global(body) {
+    overflow-x: clip;
+  }
+
+  /* 風のような背景色 */
+  :global(body.bg-wind) {
+    background: linear-gradient(
+      180deg,
+      #142B3B 0%,
+      #377E91 50%,
+      #9BD7D8 100%
+    );
+  }
+
+  /* 林のような背景色 */
+  :global(body.bg-forest) {
+    background: linear-gradient(
+      180deg,
+      #101F19 0%,
+      #28583B 50%,
+      #8DAF59 100%
+    );
+  }
+
+  /* 火のような背景色 */
+  :global(body.bg-fire) {
+    background: linear-gradient(
+      180deg,
+      #250505 0%,
+      #a83232 50%,
+      #ff8716 100%
+    );
+  }
+
+  /* 山のような背景色 */
+  :global(body.bg-mountain) {
+    background: linear-gradient(
+      180deg,
+      #202C38 0%,
+      #59656A 50%,
+      #A38A70 100%
+    );
+  }
+
+  .other-page {
+    padding: 100px 0;
+  }
+
+  @media (max-width: 768px) {
+    .other-page {
+      padding: 50px 0;
+    }
+  }
+
+  /* ===== ページタイトル ===== */
+
+  .title-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    min-width: 300px;
+    margin: 60px auto;
+  }
+
+  .title-icon {
+    position: absolute;
+    width: 100px;
+    height: auto;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    pointer-events: none;
+  }
+
+  .page-title {
+    position: relative;
+    z-index: 1;
+
+    margin: 0;
+    padding: 10px 60px;
+
+    color: #EEEFF6;
+    font-family: "Hina Mincho", serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    letter-spacing: 0.15em;
+  }
+</style>

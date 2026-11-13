@@ -1,72 +1,15 @@
-body {
-  overflow-x: clip;
-  /* 背景の上書き */
-  background: linear-gradient(
-    180deg,
-    #250505 0%,
-    #a83232 50%,
-    #ff8716 100%
-  );
+#reservation-id {
+  font-family: Arial, "Meiryo", sans-serif;
+  color: #333;
+  background-color: #fff;
+}
+#reservation-id::placeholder {
+  color: #888;
+  opacity: 1;
 }
 
-.reserve-page {
-  width: 100%;
-  padding: 100px 0;
-  font-family: "Arial", serif;
-}
-
-/* ===== ページタイトル ===== */
-
-.title-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: fit-content;
-  min-width: 300px;
-  margin: 60px auto;
-}
-
-.title-icon {
-  position: absolute;
-  width: 100px;
-  height: auto;
-
-  top: 50%;
-  transform: translateY(-50%);
-
-  pointer-events: none;
-}
-
-.page-title {
-  position: relative;
-  z-index: 1;
-
-  margin: 0;
-  padding: 10px 60px;
-
-  color: #EEEFF6;
-  font-family: "Hina Mincho", serif;
-  font-size: clamp(32px, 4vw, 52px);
-  font-weight: 400;
-  letter-spacing: 0.15em;
-}
-
-@media (max-width: 768px) {
-  .reserve-page {
-    padding: 50px 0;
-  }
-}
-
-.reservation {
-  width: 100%;
-  text-align: center;
-  font-family: "Arial", serif;
-}
-
-.reserve-page input,
-.reserve-page button {
+.reservation-login button,
+.action-area button {
   font-family: Arial, sans-serif;
 }
 
@@ -211,6 +154,17 @@ body {
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .id-form {
+    gap: 12px;
+  }
+
+  .id-form input {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 .id-form button,
