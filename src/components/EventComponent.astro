@@ -1,17 +1,262 @@
-<section>
-  <h2>公演情報</h2>
-  <p>入場料：100円</p>
-  <p>席数：190席（※事前予約した方が優先となります。）</p>
-  <p>日時：2027年2月28日（日）</p>
-  <p>会場：アオーレ長岡 市民交流ホールA</p>
-  <p>開場：12:00</p>
-  <p>開演：13:00</p>
-  <p>終演予定：14:30</p>
-  <p>事前予約については、<a href="/reserve">席予約ページ</a>をご確認ください</p>
-  <p>注意事項：<br/>座席数には限りがあるため、入場をお断りさせていただく場合があります。
-  <br/>演奏中の撮影・録音は可能です
-  <br/>SNSなどには掲載しないでね
-<br/>他のお客様のご迷惑となるような行為はご遠慮ください
-<br/>開演時刻を過ぎてのご入場は制限させていただく場合がございます。 時間に余裕をもってお越しください。
-</p>
+---
+import Frame from "./items/Frame.astro";
+---
+
+<section class="event-info">
+
+  <Frame>
+  <div class="p-12">
+    <!-- 開催概要 -->
+    <div>
+      <h2 class="text-center">開催概要</h2>
+      <dl class="info-list">
+        <div>
+          <dt>入場料</dt>
+          <dd>100円</dd>
+        </div>
+        <div>
+          <dt>席数</dt>
+          <dd>190席</dd>
+        </div>
+        <div>
+          <dt>日時</dt>
+          <dd>2027年2月28日（日）</dd>
+        </div>
+        <div>
+          <dt>会場</dt>
+          <dd>アオーレ長岡 市民交流ホールA</dd>
+        </div>
+      </dl>
+
+      <p class="sub-note">
+        ※事前予約した方が優先となります。
+      </p>
+    </div>
+
+        <!-- 予約案内 -->
+    <div class="section-block reserve-block">
+      <h2>事前予約</h2>
+      <p>
+        お席の事前予約については、
+        <a href="/reserve">席予約ページ</a>
+        をご確認ください。
+      </p>
+    </div>
+
+    <!-- タイムスケジュール -->
+    <div class="section-block">
+      <h2>公演スケジュール</h2>
+
+      <div class="schedule">
+        <div class="schedule-item">
+          <span class="schedule-time">12:00</span>
+          <span class="schedule-label">開場</span>
+        </div>
+
+        <div class="schedule-item main">
+          <span class="schedule-time">13:00</span>
+          <span class="schedule-label">開演</span>
+        </div>
+
+        <div class="schedule-item">
+          <span class="schedule-time">14:30</span>
+          <span class="schedule-label">終演予定</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 注意事項 -->
+    <div class="section-block notes-block">
+      <h2>ご来場にあたっての注意事項</h2>
+
+      <ul>
+        <li>
+          座席数には限りがあるため、入場をお断りさせていただく場合があります。
+        </li>
+        <li>
+          演奏中の撮影・録音は可能です。
+        </li>
+        <li>
+          撮影・録音した内容をSNSなどへ掲載することはご遠慮ください。
+        </li>
+        <li>
+          他のお客様のご迷惑となるような行為はご遠慮ください。
+        </li>
+        <li>
+          開演時刻を過ぎてのご入場は制限させていただく場合がございます。
+          時間に余裕をもってお越しください。
+        </li>
+      </ul>
+    </div>
+  </div>
+  </Frame>
 </section>
+
+<style>
+  .event-info {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+    color: #eee9dc;
+  }
+
+  /* 情報全体のパネル */
+  .info-card {
+    padding: 40px 48px;
+    background: rgba(8, 29, 20, 0.48);
+    border: 1px solid rgba(201, 180, 124, 0.3);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  /* 各セクション */
+  .section-block + .section-block {
+    margin-top: 38px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(201, 180, 124, 0.25);
+  }
+
+  .section-block h2 {
+    margin: 0 0 24px;
+    padding-left: 14px;
+    border-left: 3px solid #bba875;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+
+  /* 開催概要 */
+  .info-list {
+    margin: 0;
+  }
+
+  .info-list > div {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    padding: 15px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .info-list dt {
+    color: #c4b991;
+    font-size: 0.95rem;
+  }
+
+  .info-list dd {
+    margin: 0;
+    color: #f1eee5;
+    line-height: 1.7;
+  }
+
+.sub-note {
+  padding-bottom : 24px
+}
+
+
+  /* スケジュール */
+  .schedule {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .schedule-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 10px;
+  }
+
+.schedule-time {
+  font-size: 28px
+}
+
+  /* 予約 */
+  .reserve-block {
+    padding: 24px;
+    border: 1px solid rgba(201, 180, 124, 0.3);
+  }
+
+  .reserve-block h2 {
+    margin-bottom: 14px;
+  }
+
+  .reserve-block p {
+    margin: 0;
+    line-height: 1.9;
+  }
+
+  .reserve-block a {
+    color: #e2cb91;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: opacity 0.2s;
+  }
+
+  .reserve-block a:hover {
+    opacity: 0.7;
+  }
+
+  /* 注意事項 */
+  .notes-block ul {
+    margin: 0;
+    padding-left: 1.4em;
+  }
+
+  .notes-block li {
+    padding-left: 5px;
+    margin-bottom: 14px;
+    color: #d2d1c7;
+    font-size: 0.92rem;
+    line-height: 1.9;
+  }
+
+  .notes-block li::marker {
+    color: #bba875;
+  }
+
+  /* スマートフォン */
+  @media (max-width: 600px) {
+    .event-info {
+      padding: 24px 16px 60px;
+    }
+
+    .info-card {
+      padding: 28px 20px;
+    }
+
+    .section-block h2 {
+      font-size: 1.1rem;
+    }
+
+    .info-list > div {
+      grid-template-columns: 75px 1fr;
+      gap: 8px;
+      padding: 13px 4px;
+    }
+
+    .info-list dt,
+    .info-list dd {
+      font-size: 0.88rem;
+    }
+
+    .schedule {
+      gap: 7px;
+    }
+
+    .schedule-item {
+      padding: 18px 4px;
+    }
+
+    .schedule-time {
+      font-size: 1.2rem;
+    }
+
+    .schedule-label {
+      font-size: 0.8rem;
+    }
+  }
+</style>
