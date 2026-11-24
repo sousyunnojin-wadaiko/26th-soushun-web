@@ -284,10 +284,12 @@ const shards = Array.from(
   /* Main Title */
   .title-text--main {
     font-size: var(--main-title-size);
+    line-height: 1;
   }
 
   .title-text--main rt {
     font-size: 0.3em;
+    line-height: 1;
   }
 
   /* Subtitle */
@@ -462,6 +464,11 @@ const shards = Array.from(
   .vertical-text::before {
     inset: -15px;
     filter: blur(15px);
+  }
+
+  .title-text--main rt {
+    position: relative;
+    left: -0.15em;
   }
 }
 
