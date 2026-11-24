@@ -91,7 +91,10 @@ const shards = Array.from(
 
   <div class="hero__main-title vertical-text">
     <h1 class="title-text title-text--main">
-      <ruby>解<rt>ほどき</rt></ruby>
+      <ruby>
+        <span class="title-kanji">解</span>
+        <rt>ほどき</rt>
+      </ruby>
     </h1>
   </div>
 
@@ -285,11 +288,33 @@ const shards = Array.from(
   .title-text--main {
     font-size: var(--main-title-size);
     line-height: 1;
+    writing-mode: horizontal-tb;
+  }
+
+  .title-text--main ruby {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    writing-mode: horizontal-tb;
+  }
+
+  .title-text--main .title-kanji {
+    display: block;
+    writing-mode: vertical-rl;
+    line-height: 1;
   }
 
   .title-text--main rt {
+    display: block;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+
     font-size: 0.3em;
     line-height: 1;
+    font-weight: normal;
+
+    margin-left: -0.2em;
   }
 
   /* Subtitle */
@@ -465,11 +490,6 @@ const shards = Array.from(
   .vertical-text::before {
     inset: -15px;
     filter: blur(15px);
-  }
-
-  .title-text--main rt {
-    position: relative;
-    left: -0.2em;
   }
 
   /* デバッグ用 */
