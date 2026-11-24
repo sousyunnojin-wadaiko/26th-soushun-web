@@ -116,16 +116,16 @@ const shards = Array.from(
     width: 100%;
     max-width: none;
     height: 100vh;
-    height: 100dvh;
+    height: 100svh;
     margin: 0;
     padding: 0;
     overflow: hidden;
     isolation: isolate;
 
     --hero-image-height: 130%;
-    --main-title-size: 14rem;
-    --sub-title-size: 4rem;
-    --info-size: 1.5rem;
+    --main-title-size: clamp(10rem, 14vw, 14rem);
+    --sub-title-size: clamp(2rem, 3vw, 2.5rem);
+    --info-size: clamp(1.1rem, 2vw, 1.2rem);
 
     background: linear-gradient(
       to bottom,
@@ -353,9 +353,9 @@ const shards = Array.from(
 @media (min-width: 769px) and (max-width: 1024px) {
   .hero {
     --hero-image-height: 115%;
-    --main-title-size: 10rem;
-    --sub-title-size: 3rem;
-    --info-size: 1.2rem;
+    --main-title-size: clamp(7rem, 16vw, 10rem);
+    --sub-title-size: clamp(2rem, 4vw, 2.3rem);
+    --info-size: clamp(1rem, 2vw, 1.1rem);
   }
 
   .hero__image {
@@ -403,8 +403,8 @@ const shards = Array.from(
   .hero {
     --hero-image-height: 85%;
     --main-title-size: clamp(5rem, 22vw, 8rem);
-    --sub-title-size: clamp(1.6rem, 6vw, 2.5rem);
-    --info-size: clamp(1rem, 3vw, 1.5rem);
+    --sub-title-size: clamp(1.6rem, 6vw, 2rem);
+    --info-size: clamp(1rem, 3vw, 1.2rem);
   }
 
   .ice-shard {
@@ -435,35 +435,30 @@ const shards = Array.from(
     );
   }
 
-  /* イベント名 */
   .hero__event-name {
     right: 5%;
     top: 10%;
     z-index: 20;
   }
 
-  /* 「解」 */
   .hero__main-title {
     right: 15%;
     top: 15%;
     z-index: 5;
   }
 
-  /* 「〜春呼びの音〜」 */
   .hero__subtitle {
     right: 18%;
-    top: 28%;
-    z-index: 5;
+    top: clamp(30%, 40vw, 36%);
+    z-index: 4;
   }
 
-  /* 開催日時・会場 */
   .hero__info {
     left: 5%;
     bottom: 5%;
     z-index: 20;
   }
 
-  /* 文字の背後の影を小さくする */
   .vertical-text::before {
     inset: -15px;
     filter: blur(15px);
