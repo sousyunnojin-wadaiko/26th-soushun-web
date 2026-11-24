@@ -7,7 +7,7 @@ import "../../styles/global.css";
 interface Props {
   title?: string;
   pageTitle?: string;
-  bg?: "wind" | "forest" | "fire" | "mountain";
+  bg?: "night" | "storm" | "flower" | "wind" ;
   title_icon_posi?: "left" | "center" | "right";
   title_icon_offset?: number;
 }
@@ -58,7 +58,7 @@ const iconSrc = `/icon/icon_${bg}.svg`;
     <PageButton
       href="/"
       background={iconSrc}
-      label="トップページに戻る"
+      label="トップページ"
       position={title_icon_posi}
     />
 
@@ -71,43 +71,47 @@ const iconSrc = `/icon/icon_${bg}.svg`;
     overflow-x: clip;
   }
 
-  /* 風のような背景色 */
+  /* 宵 */
+  :global(body.bg-night) {
+    background: linear-gradient(
+      180deg,
+      #0C1020 0%,
+      #292744 42%,
+      #805A68 78%,
+      #BA816D 100%
+    );
+  }
+
+  /* 嵐 */
+  :global(body.bg-storm) {
+    background: linear-gradient(
+      180deg,
+      #111D22 0%,
+      #35484D 38%,
+      #66787B 68%,
+      #A5A49B 100%
+    );
+  }
+
+  /* 花 */
+  :global(body.bg-flower) {
+    background: linear-gradient(
+      180deg,
+      #301B29 0%,
+      #803D53 38%,
+      #C97980 72%,
+      #E7B9A0 100%
+    );
+  }
+
+  /* 風 */
   :global(body.bg-wind) {
     background: linear-gradient(
       180deg,
-      #142B3B 0%,
-      #377E91 50%,
-      #9BD7D8 100%
-    );
-  }
-
-  /* 林のような背景色 */
-  :global(body.bg-forest) {
-    background: linear-gradient(
-      180deg,
-      #101F19 0%,
-      #28583B 50%,
-      #8DAF59 100%
-    );
-  }
-
-  /* 火のような背景色 */
-  :global(body.bg-fire) {
-    background: linear-gradient(
-      180deg,
-      #250505 0%,
-      #a83232 50%,
-      #ff8716 100%
-    );
-  }
-
-  /* 山のような背景色 */
-  :global(body.bg-mountain) {
-    background: linear-gradient(
-      180deg,
-      #202C38 0%,
-      #59656A 50%,
-      #A38A70 100%
+      #142921 0%,
+      #36584B 40%,
+      #789783 72%,
+      #C4C5A1 100%
     );
   }
 
