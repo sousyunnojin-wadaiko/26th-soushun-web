@@ -1,22 +1,152 @@
 ---
 import Frame from "./items/Frame.astro";
+const train = "/icon/icon_train.svg";
+const car = "/icon/icon_car.svg";
+const parking = "/icon/icon_parking.svg";
 ---
 
-<section>
-  <p>会場：アオーレ長岡　市民交流ホールA</p>
-  
+<section class="access-info">
+  <div class="subsection-block">
+    <h2>会場</h2>
+    <h3>アオーレ長岡 市民交流ホールA</h3>
+    <p>〒940-0061 新潟県長岡市大手通1丁目4番地10</p>
+  </div>
 
-<p>■ 電車でお越しの方</p>
-  <p>JR「長岡駅」大手口より徒歩約3分</p>
-<p>■ お車でお越しの方</p>
-<p>
-関越自動車道「長岡IC」より車で約20分</p>
-<p>■【駐車場について】
-施設内に「アオーレ長岡 地下駐車場（103台・30分100円）」がございます。
-満車の場合は、近隣の有料駐車場（大手通り地下駐車場、市営大手口駐車場など）をご利用ください。
-※本イベントの参加に伴う駐車料金の無料サービス・割引はございませんので、あらかじめご了承ください。
-</p>
-<Frame>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.6172991837307!2d138.84865762586816!3d37.446144572069954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff5a85390dc6665%3A0x9ff2932738c8a0cb!2z44K344OG44Kj44Ob44O844Or44OX44Op44K2IOOCouOCquODvOODrOmVt-WyoQ!5e0!3m2!1sja!2sjp!4v1790145865300!5m2!1sja!2sjp" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-</Frame>
-  </section>
+  <div class="subsection-block">
+    <h2>会場までの行き方</h2>
+    <div class="access-info-block">
+      <img
+        src={train}
+        alt=""
+        aria-hidden="true"
+        class="access-info-icon"
+      />
+      <h3>電車でお越しの方</h3>
+      <p>最寄り駅は、JR「長岡駅」です。<br />
+      駅2階の連絡通路より徒歩約3分で会場に到着します。</p>
+    </div>
+    <div class="access-info-block">
+      <img
+        src={car}
+        alt=""
+        aria-hidden="true"
+        class="access-info-icon"
+      />
+      <h3>お車でお越しの方</h3>
+      <p>最寄りの高速道路インターチェンジは、関越自動車道「長岡IC」です。<br />
+      長岡ICより車で約20分で会場付近に到着します。<br />
+      会場付近は、無料駐車場はございませんのでご注意ください。</p>
+    </div>
+    <div class="access-info-block">
+      <img
+        src={parking}
+        alt=""
+        aria-hidden="true"
+        class="access-info-icon"
+      />
+      <h3>駐車場のご案内</h3>
+      <p>施設内に「アオーレ長岡 地下駐車場（103台・30分100円・上限なし）」がございます。<br />
+      満車の場合は、近隣の有料駐車場（大手通り地下駐車場、市営大手口駐車場など）をご利用ください。<br />
+      本イベントの参加に伴う駐車料金の無料サービス・割引はございませんので、あらかじめご了承ください。</p>
+    </div>
+  </div>
+
+  <!-- Google Map -->
+  <Frame>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.6172991837307!2d138.84865762586816!3d37.446144572069954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5ff5a85390dc6665%3A0x9ff2932738c8a0cb!2z44K344OG44Kj44Ob44O844Or44OX44Op44K2IOOCouOCquODvOODrOmVt-WyoQ!5e0!3m2!1sja!2sjp!4v1790145865300!5m2!1sja!2sjp" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </Frame>
+</section>
+
+<style>
+  .access-info {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 5%;
+    box-sizing: border-box;
+    color: var(--color-main);
+  }
+
+  .subsection-block {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .subsection-block + .subsection-block {
+    margin-top: 30px;
+  }
+
+  .subsection-block h2 {
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(238, 239, 246, 0.3);
+  }
+
+  .subsection-block p {
+    margin: 0;
+    line-height: 1.9;
+  }
+
+  .access-info-block {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    column-gap: 24px;
+    row-gap: 8px;
+    align-items: start;
+  }
+
+  .access-info-block + .access-info-block {
+    margin-top: 20px;
+  }
+
+  .access-info-icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .access-info-block h3 {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  .access-info-block p {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 450px;
+  }
+
+  @media (max-width: 768px) {
+    .access-info {
+      padding: 30px 24px;
+      gap: 30px;
+    }
+
+    .access-info-block {
+      grid-template-columns: 50px minmax(0, 1fr);
+      column-gap: 15px;
+    }
+
+    .access-info-block + .access-info-block {
+      margin-top: 15px;
+    }
+
+    iframe {
+      height: 300px;
+    }
+  }
+</style>
