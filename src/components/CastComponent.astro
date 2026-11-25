@@ -1,0 +1,225 @@
+---
+const turukame = "/turukame_2026.jpg";
+const tenteko = "/tenteko_2026.jpg";
+---
+<section class="cast-section">
+  <img
+    src="/wind-left.svg"
+    alt=""
+    aria-hidden="true"
+    class="cast-wind"
+  />
+
+  <div class="cast-image-wrapper">
+    <img
+      src={tenteko}
+      alt="輪太鼓衆 転太鼓舞"
+      class="cast-image"
+    />
+  </div>
+
+  <div class="cast-description">
+    <h2 class="cast-group-name">輪太鼓衆 転太鼓舞</h2>
+    <p>
+      長岡造形大学の和太鼓サークルです。
+      「輪になって叩こう」をモットーに活動しています。
+      長岡市内を中心に、県内各地のお祭りやイベント、福祉施設などで演奏し、
+      今年度は佐渡でも演奏する機会をいただきました。
+      早春の陣では、日頃から支えてくださる皆さまへの感謝を胸に、
+      受け継いできた音に私たちらしさを重ね、この瞬間、
+      この仲間だからこそ生まれる音を届けます。
+      掛け声はいつも__「ちょいさ！」
+    </p>
+  </div>
+</section>
+
+<!-- 転太鼓舞 -->
+<section class="cast-section reverse">
+  <img
+    src="/wind-right.svg"
+    alt=""
+    aria-hidden="true"
+    class="cast-wind"
+  />
+
+  <div class="cast-image-wrapper">
+    <img
+      src={turukame}
+      alt="悠久太鼓愛好会 鶴亀会"
+      class="cast-image"
+    />
+  </div>
+
+  <div class="cast-description">
+    <h2 class="cast-group-name">悠久太鼓愛好会 鶴亀会</h2>
+    <p>
+      長岡技術科学大学の和太鼓サークルです。
+      私たちは、和太鼓の魅力を多くの方々に届けることを目標に、日々活動しています。
+      長岡市内を中心に、お祭りやイベント、社会福祉施設など、
+      さまざまな場所で演奏活動を行っており、
+      毎年8月に開催される長岡まつりでは「悠久太鼓」を演奏しています。
+      早春の陣では、日頃から私たちを支えてくださっている皆様への
+      感謝の気持ちを演奏に込め、心に響く演奏をお届けできるよう、
+      メンバー一同精一杯頑張ります!
+    </p>
+  </div>
+</section>
+
+<style>
+  .cast-section {
+    position: relative;
+    isolation: isolate;
+
+    display: grid;
+    grid-template-columns: minmax(0, 55%) minmax(0, 45%);
+    align-items: center;
+    gap: 30px;
+
+    width: 100%;
+    max-width: 1500px;
+    min-height: 550px;
+
+    margin: 0 auto 50px;
+    padding: 40px 5%;
+    box-sizing: border-box;
+  }
+
+  .cast-section:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 2団体目は左右反転 */
+  .cast-section.reverse {
+    grid-template-columns: minmax(0, 45%) minmax(0, 55%);
+  }
+
+  .cast-section.reverse .cast-image-wrapper {
+    order: 2;
+  }
+
+  .cast-section.reverse .cast-description {
+    order: 1;
+  }
+
+  /* ===== 風の装飾 ===== */
+
+  .cast-wind {
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+
+    width: 70%;
+    height: auto;
+    opacity: 0.3;
+
+    top: 20%;
+    left: -5%;
+    transform: translateY(-50%);
+  }
+
+  /* 右側の風 */
+  .cast-section.reverse .cast-wind {
+    left: auto;
+    top: 80%;
+    right: -5%;
+  }
+
+  /* ===== 写真 ===== */
+
+  .cast-image-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .cast-image {
+    display: block;
+    width: 100%;
+    height: clamp(280px, 30vw, 450px);
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+  }
+
+  /* ===== 紹介文 ===== */
+
+  .cast-description {
+    min-width: 0;
+    padding: 20px clamp(10px, 3vw, 50px);
+    box-sizing: border-box;
+    text-align: left;
+    color: #EEEFF6;
+  }
+
+  .cast-group-name {
+    margin: 0 0 24px;
+    font-size: clamp(24px, 2.5vw, 36px);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+
+  .cast-description p {
+    margin: 0;
+    font-size: clamp(15px, 1.15vw, 19px);
+    line-height: 2;
+  }
+
+  /* ===== スマホ表示 ===== */
+
+  @media (max-width: 768px) {
+    .cast-section,
+    .cast-section.reverse {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+
+      min-height: 0;
+      margin-bottom: 0px;
+      padding: 30px 24px;
+    }
+
+    /* 写真を先、文章を後に */
+    .cast-section .cast-image-wrapper,
+    .cast-section.reverse .cast-image-wrapper {
+      order: 1;
+      width: 100%;
+    }
+
+    .cast-section .cast-description,
+    .cast-section.reverse .cast-description {
+      order: 2;
+      width: 100%;
+    }
+
+    .cast-image {
+      height: auto;
+      aspect-ratio: 4 / 3;
+      border-radius: 14px;
+    }
+
+    .cast-description {
+      padding: 10px 0;
+    }
+
+    .cast-group-name {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .cast-description p {
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .cast-wind {
+      width: 80%;
+      left: -5%;
+      top: 10%;
+    }
+
+    .cast-section.reverse .cast-wind {
+      left: auto;
+      right: -5%;
+      top: 45%;
+    }
+  }
+</style>
