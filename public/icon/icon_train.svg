@@ -1,0 +1,15 @@
+<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M129 461H371.705L395 471H108L129 461Z" fill="#EEEFF6"/>
+<mask id="stroke0_328_100" fill="white">
+<path d="M129 461H371.705L395 471H108L129 461Z"/>
+</mask>
+<path d="M129 461H371.705L395 471H108L129 461Z" stroke-width="2" stroke="black" mask="url(#stroke0_328_100)"/>
+<line x1="163.649" y1="447.267" x2="74.2672" y2="484.351" stroke-width="5" stroke-linecap="round" stroke="black"/>
+<line x1="332.237" y1="446.579" x2="427.579" y2="483.763" stroke-width="5" stroke-linecap="round" stroke="black"/>
+<rect x="0.5" y="0.5" width="499" height="499" rx="127.5" stroke="black"/>
+<rect x="35.5" y="19.5" width="429" height="429" rx="86.5" fill="#EEEFF6" stroke="black"/>
+<rect x="71.5" y="67.5" width="357" height="243" rx="47.5" fill="#EEEFF6" stroke="black"/>
+<circle cx="134" cy="365" r="30.5" fill="#EEEFF6" stroke="black"/>
+<circle cx="360" cy="365" r="30.5" fill="#EEEFF6" stroke="black"/>
+<line x1="250.5" y1="66.9999" x2="250.543" y2="311" stroke="black"/>
+</svg>
