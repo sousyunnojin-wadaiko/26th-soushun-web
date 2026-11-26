@@ -109,29 +109,25 @@
 
 .hero__ice-image {
   position: absolute;
-  width: 80%;
-  height: 80%;
-  max-width: none;
-
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 
-  object-fit: cover;
-  object-position: center;
+  width: 100%;
+  height: auto;
+
+  max-width: none;
+
+  transform: translate(-50%, -50%);
+  object-fit: contain;
 }
 
 /* モバイル */
 @media (max-width: 767px) {
   .hero__ice-image {
     width: 80vh;
-    height: 80vw;
-    max-width: none;
-    transform: rotate(90deg);
-    transform-origin: center;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
+    height: auto;
+
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 }
 
