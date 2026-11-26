@@ -1,72 +1,45 @@
 <section id="MoveTheme" class="theme">
-  <h1><ruby>解<rt>ほどき</rt></ruby></h1>
+  <h1>
+    <ruby><span>解</span><rt>ほどき</rt></ruby>
+  </h1>
   <h2>
     <span>～</span>
-    <ruby>春<rt>はる</rt></ruby>
-    <ruby>呼<rt>よ</rt></ruby>
+    <ruby><span>春</span><rt>はる</rt></ruby>
+    <ruby><span>呼</span><rt>よ</rt></ruby>
     <span>び</span>
     <span>の</span>
-    <ruby>音<rt>ね</rt></ruby>
+    <ruby><span>音</span><rt>ね</rt></ruby>
     <span>～</span>
   </h2>
   <div class="theme-line"></div>
 </section>
 
 <style>
-  /* ===== DEBUG ===== */
-  .theme h1 {
-    outline: 1px solid red;
-    background-color: rgba(255, 0, 0, 0.1);
-  }
-
-  .theme h1 ruby {
-    outline: 1px solid lime;
-    background-color: rgba(0, 255, 0, 0.15);
-  }
-
-  .theme h1 rt {
-    outline: 1px solid cyan;
-    background-color: rgba(0, 255, 255, 0.2);
-  }
-
-  .theme h2 {
-    outline: 1px solid red;
-    background-color: rgba(255, 0, 0, 0.1);
-  }
-
-  .theme h2 ruby {
-    outline: 1px solid lime;
-    background-color: rgba(0, 255, 0, 0.15);
-  }
-
-  .theme h2 rt {
-    outline: 1px solid cyan;
-    background-color: rgba(0, 255, 255, 0.2);
-  }
-  /* debug */
-
   .theme {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    line-height: 1;
+    gap: 0.5em;
   }
 
   .theme h1 {
+    display: flex;
+    justify-content: center;
+
     font-size: 8rem;
     margin: 0;
     line-height: 1;
-  }
-
-  .theme h1 rt {
-    font-size: 0.2em;
+    letter-spacing: 0;
   }
 
   .theme h2 {
     display: flex;
-    align-items: baseline;
+    justify-content: center;
+    align-items: flex-end;
+
+    font-size: 1.6rem;
     gap: 0.5em;
     margin: 0;
     letter-spacing: 0;
@@ -74,15 +47,41 @@
   }
 
   .theme ruby {
-    line-height: 1;
-    letter-spacing: 0;
+    display: inline-flex;
+    flex-direction: column-reverse;
+    align-items: center;
+
+    gap: 0;
     margin: 0;
     padding: 0;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .theme ruby > span {
+    display: block;
+    line-height: 1;
   }
 
   .theme rt {
+    display: block;
     line-height: 1;
     letter-spacing: 0;
+  }
+
+  .theme h1 rt {
+    font-size: 0.2em;
+  }
+
+  .theme h2 rt {
+    font-size: 0.5em;
+  }
+
+  .theme h2 > ruby,
+  .theme h2 > span {
+    width: 1em;
+    flex-shrink: 0;
+    text-align: center;
   }
 
   .theme-line {
