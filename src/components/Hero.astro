@@ -2,7 +2,10 @@
 
 ---
 
-<section class="hero">  
+<section class="hero">
+  <div class="hero__ice" aria-hidden="true">
+  <img src="/hero_ice.webp" alt="" class="hero__ice-image" />
+</div>
   <!-- Hero Image -->
   <picture>
     <source
@@ -96,13 +99,41 @@
     filter: grayscale(20%) brightness(95%);
   }
 
-  .hero__ice {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    overflow: hidden;
-    pointer-events: none;
+.hero__ice {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero__ice-image {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  max-width: none;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  object-fit: cover;
+  object-position: center;
+}
+
+/* モバイル */
+@media (max-width: 767px) {
+  .hero__ice-image {
+    width: 80vh;
+    height: 80vw;
+    max-width: none;
+    transform: rotate(90deg);
+    transform-origin: center;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
   }
+}
 
   .hero__glow {
     position: absolute;
