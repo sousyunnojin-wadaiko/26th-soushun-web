@@ -1,3 +1,16 @@
+@import "tailwindcss";
+
+/* --------------------
+フォント
+-------------------- */
+@font-face {
+    font-family: "Hina Mincho";
+    src: url("/fonts/HinaMincho-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root { /* このWebサイト全体で使う設定 */
     /* Colors */
     --color-main: #eeeef4;
@@ -19,7 +32,7 @@
 /* --------------------
 全体
 -------------------- */
-@import "tailwindcss";
+
 * {
     box-sizing: border-box;
 }
