@@ -1,5 +1,4 @@
 ---
-const heroImage = "/poster_model.webp";
 
 const ICE_CONFIG = {
   count: 200,
@@ -72,11 +71,19 @@ const shards = Array.from(
   </div>
   
   <!-- Hero Image -->
-  <img
-    src={heroImage}
-    alt=""
-    class="hero__image"
-  />
+  <picture>
+    <source
+      media="(max-width: 767px)"
+      srcset="/poster_mobile.webp"
+    />
+
+    <img
+      src="/poster_pc.webp"
+      alt="早春の陣の公演ポスター"
+      class="hero__image"
+      fetchpriority="high"
+    />
+</picture>
 
   <!-- Clouds -->
   <img class="cloud_1" src="/icon/icon_cloud1.svg" alt="" aria-hidden="true"/>
