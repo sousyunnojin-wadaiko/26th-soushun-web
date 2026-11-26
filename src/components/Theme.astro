@@ -1,11 +1,13 @@
 <section id="MoveTheme" class="theme">
   <h1><ruby>解<rt>ほどき</rt></ruby></h1>
   <h2>
-    ～
+    <span>～</span>
     <ruby>春<rt>はる</rt></ruby>
-    <ruby>呼<rt>よ</rt></ruby>びの
+    <ruby>呼<rt>よ</rt></ruby>
+    <span>び</span>
+    <span>の</span>
     <ruby>音<rt>ね</rt></ruby>
-    ～
+    <span>～</span>
   </h2>
   <div class="theme-line"></div>
 </section>
@@ -16,7 +18,7 @@
     outline: 1px solid red;
     background-color: rgba(255, 0, 0, 0.1);
   }
-  
+
   .theme h1 ruby {
     outline: 1px solid lime;
     background-color: rgba(0, 255, 0, 0.15);
@@ -26,7 +28,6 @@
     outline: 1px solid cyan;
     background-color: rgba(0, 255, 255, 0.2);
   }
-
 
   .theme h2 {
     outline: 1px solid red;
@@ -42,6 +43,7 @@
     outline: 1px solid cyan;
     background-color: rgba(0, 255, 255, 0.2);
   }
+  /* debug */
 
   .theme {
     display: flex;
@@ -53,7 +55,6 @@
 
   .theme h1 {
     font-size: 8rem;
-    line-height: 1.5;
   }
 
   .theme h1 rt {
@@ -61,23 +62,24 @@
   }
 
   .theme h2 {
-    font-size: 1.6rem;
-    letter-spacing: 0.5em;
-    line-height: 1.5;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    letter-spacing: 0;
   }
 
-  .theme ruby {
-    ruby-position: over;
+  .theme h2 ruby {
+    letter-spacing: 0;
+    margin: 0;
+    padding: 0;
   }
 
   .theme rt {
-    line-height: 1;
     letter-spacing: 0;
   }
 
   .theme h2 rt {
-    position: relative;
-    left: -0.3rem;
+    line-height: 1;
   }
 
   .theme-line {
